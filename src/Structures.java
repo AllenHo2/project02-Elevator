@@ -3,11 +3,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Structures {
-    Queue<String> queue = new LinkedList<>();
-    Queue<String> queue2 = new ArrayList<>();
+    ArrayList<String> queue1;
+    Queue<String> queue2;
 
-
-    public Structures(String queue){
-
+    public Structures(String structureType){
+        if(structureType.equals("arraylist")){
+            queue1 = new ArrayList<String>();
+        } else if(structureType.equals("linked")){
+            queue2 = new LinkedList<String>();
+        } else {
+            throw new IllegalArgumentException("Invalid structure type");
+        }
     }
 }

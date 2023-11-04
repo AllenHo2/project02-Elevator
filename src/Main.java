@@ -12,16 +12,28 @@ public class Main {
         Properties p = new Properties();
         p.load(reader);
 
-        Floor floors = new Floor();
-        Passenger passengers = new Passenger();
+
+
+        int floor = Integer.parseInt(p.getProperty("floors"));
+        double probability = Double.parseDouble(p.getProperty("passengers"));
+        int elevator = Integer.parseInt(p.getProperty("elevators"));
+        int capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
+        int ticks = Integer.parseInt(p.getProperty("duration"));
+//        System.out.println(floor);
+//        System.out.println(probability);
+//        System.out.println(elevator);
+//        System.out.println(capacity);
+//        System.out.println(ticks);
+        Floor floors = new Floor(floor);
+        Passenger passengers = new Passenger(floor);
         passengers.levels(floors.floorLevel(p.getProperty("floors"));
-        System.out.println(floors.floorLevel(p.getProperty("floors")));
-        String structures = p.getProperty("structures");
-        System.out.println(p.getProperty("structures")); //Elevator class
-      //  System.out.println(p.getProperty("floors")); //Floor Class
-        System.out.println(p.getProperty("passengers")); //Passengers Class
-        System.out.println(p.getProperty("elevators")); //Elevator Class
-        System.out.println(p.getProperty("elevatorCapacity")); //Elevator Class
-        System.out.println(p.getProperty("duration")); //Analysis Class
+      //   System.out.println(floors.floorLevel(p.getProperty("floors")));
+      //   String structures = p.getProperty("structures");
+//         System.out.println(p.getProperty("structures")); //Elevator class
+//         System.out.println(p.getProperty("floors")); //Floor Class
+//         System.out.println(p.getProperty("passengers")); //Passengers Class
+//         System.out.println(p.getProperty("elevators")); //Elevator Class
+//         System.out.println(p.getProperty("elevatorCapacity")); //Elevator Class
+//         System.out.println(p.getProperty("duration")); //Analysis Class
     }
 }
