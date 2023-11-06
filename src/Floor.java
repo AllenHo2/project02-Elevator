@@ -2,19 +2,28 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
-
+import java.util.ArrayDeque;
 public class Floor {
     private int floorNum;
-  //  private int numFloors;
-
     private int capacity;
     private Queue<Passenger> upQueue;
     private Queue<Passenger> downQueue;
 
-    public Floor(int floorNum) {
+    private int currFloor;
+
+    public Floor(int floorNum, String structures) {
         this.floorNum = floorNum; //number of floors
-        this.upQueue = new PriorityQueue<>();
-        this.downQueue = new PriorityQueue<>(); //fix to match structure type form of structure
+        //  private int numFloors;
+        if(structures.equals("linked")) {
+            this.upQueue = new PriorityQueue<>();
+            this.downQueue = new PriorityQueue<>();
+        } else if (structures.equals("array")){
+            this.upQueue = new ArrayDeque<>();
+            this.downQueue = new ArrayDeque<>();
+        } else {
+            this.upQueue = new PriorityQueue<>();
+            this.downQueue = new PriorityQueue<>();
+        }
     }
 
     public void addPassenger(Passenger passenger) {
@@ -28,11 +37,11 @@ public class Floor {
 
     public void dropPassengers(Elevator elevator) {
         if (elevator.getDirection() == elevator.isGoingUp()) { //if the elevator is going up
-            while (!upQueue.isEmpty() && upQueue.peek().getDestinationFloor(floorNum) == currFloor) { //if UpQ is empty and the passenger has destination floor = currentfloor then drop them off
+            while (!upQueue.isEmpty() && upQueue.peek().getDestinationFloor(floorNum) == getCurrFloor()) { //if UpQ is empty and the passenger has destination floor = currentfloor then drop them off
                 elevator.addPassenger(upQueue.poll());
             }
         } else if (elevator.getDirection() != elevator.isGoingUp()) {
-            while (!downQueue.isEmpty() && downQueue.peek().getDestinationFloor(floorNum) == currFloor) {
+            while (!downQueue.isEmpty() && downQueue.peek().getDestinationFloor(floorNum) == getCurrFloor()) {
                 elevator.addPassenger(downQueue.poll());
             }
         }
@@ -102,6 +111,14 @@ public class Floor {
     public int getCapacity() {
         return capacity;
     }
+    public int getCurrFloor() {
+        return currFloor;
+    }
+
+    public void setCurrFloor(int currFloor) {
+        this.currFloor = currFloor;
+    }
+
 
 
 }

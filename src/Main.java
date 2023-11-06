@@ -13,20 +13,31 @@ public class Main {
         p.load(reader);
 
 
-
+        String structure = p.getProperty("structures");
         int floor = Integer.parseInt(p.getProperty("floors"));
-        double probability = Double.parseDouble(p.getProperty("passengers"));
+        double probability = Float.parseFloat(p.getProperty("passengers"));
         int elevator = Integer.parseInt(p.getProperty("elevators"));
         int capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
         int ticks = Integer.parseInt(p.getProperty("duration"));
+        int counter = 0;
 //        System.out.println(floor);
 //        System.out.println(probability);
 //        System.out.println(elevator);
 //        System.out.println(capacity);
 //        System.out.println(ticks);
-        Floor floors = new Floor(floor);
+        Floor floors = new Floor(floor, structure);
         Passenger passengers = new Passenger(floor);
-        passengers.levels(floors.floorLevel(p.getProperty("floors"));
+
+       // passengers.levels(floors.floorLevel(p.getProperty("floors"));
+
+        for (int i = 0; i < ticks; i++){
+            counter++;
+        }
+        Elevator elevator1 = new Elevator(floor);
+        System.out.println("--- Elevator is on floor " + elevator1.currFloor() + " ---");
+        System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
+        System.out.println("--- Elevator has arrived at " + elevator1.currFloor() + " ---");
+
       //   System.out.println(floors.floorLevel(p.getProperty("floors")));
       //   String structures = p.getProperty("structures");
 //         System.out.println(p.getProperty("structures")); //Elevator class

@@ -1,25 +1,26 @@
 public class Elevator {
 
+    private int numFloor; //number of floors
 
-    private int floornum;
+    private int destFloor; //destination floor
 
-    private int destFloor;
+    private int startFloor; //start floor
 
-    private int startFloor;
+    private boolean goingUp; //is going up
+    private  int capacity; //capacity of elevator
 
-    private boolean goingUp;
-
-
-    private  int capacity;
-
-    public Elevator(int flooring) {
-        this.floornum = floornum;
+    public Elevator(int floorNum) {
+        this.numFloor = floorNum;
     }
 
 
+
+    public int currFloor(){
+        return 0;
+    }
     public boolean getDirection() {
-        if(getFloornum() == getStartFloor() && getDestFloor() > getStartFloor()){
-            for(int i = getStartFloor(); i < getDestFloor() && i < getFloornum(); i++ ){
+        if(getNumFloor() == getStartFloor() && getDestFloor() > getStartFloor()){
+            for(int i = getStartFloor(); i < getDestFloor() && i < getNumFloor(); i++ ){
                 setGoingUp(true);
             }
         }
@@ -28,10 +29,14 @@ public class Elevator {
     }
 
 
-    public int getFloornum() {
-        return floornum;
+
+    public int getNumFloor() {
+        return numFloor;
     }
 
+    public void setNumFloor(int numFloor) {
+        this.numFloor = numFloor;
+    }
 
     public int getDestFloor() {
         return destFloor;

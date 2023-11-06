@@ -1,5 +1,6 @@
 import java.lang.Math;
 import java.util.Random;
+import java.util.Properties;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -7,30 +8,28 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Passenger implements Comparable<Passenger> {
-    private int startFloor;
-    //private int destFloor;
-    private boolean goingUp;
-
-    private int numFloors;
+    private int startFloor; // starting floor
+    private int destFloor; //destination floor
+    private boolean goingUp; //if the elevator is going up or not
+    private int numFloors; // number of floors
 
     public Passenger(int numFloor) { //constructs Passenger with argument 32 floors
-        setNumFloors(numFloor);
+        this.numFloors = numFloor;//sets the number of floors to the amount passed into the argument (default 32)
         Random rand = new Random(); //random object
         startFloor = rand.nextInt(numFloor) + 1; //start floor is random
         do {
-            getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
-        } while (getDestinationFloor(numFloor) == startFloor);
-        goingUp = getDestinationFloor(numFloor) > startFloor; //goingUp is true if destFloor is higher than startFloor
+            destFloor = getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
+        } while (destFloor == startFloor);
+        goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
     }
 
 
     public int compareTo(Passenger other) { //compares a passenger to another
-        if (goingUp) {
-            return Integer.compare(getDestinationFloor(numFloors), other.getDestinationFloor(numFloors));
-        } else {
-            return Integer.compare(other.getDestinationFloor(numFloors), numFloors);
-        }
+            return Integer.compare(this.getDestFloor(), other.getDestFloor());
     }
+
+
+
 
     public int getStartFloor() {
         return startFloor;
@@ -44,6 +43,14 @@ public class Passenger implements Comparable<Passenger> {
         return goingUp;
     }
 
+    public void setStartFloor(int startFloor) {
+        this.startFloor = startFloor;
+    }
+
+    public void setGoingUp(boolean goingUp) {
+        this.goingUp = goingUp;
+    }
+
     public int getDestinationFloor(int numFloors) {
         Random random = new Random();
         int destinationFloor = random.nextInt(numFloors) + 1;
@@ -51,6 +58,17 @@ public class Passenger implements Comparable<Passenger> {
             destinationFloor = random.nextInt(numFloors) + 1;
         }
         return destinationFloor;
+    }
+
+
+    public boolean getDirection() {
+        if(getNumFloors() == getStartFloor() && getDestinationFloor(numFloors) > getStartFloor()){
+            for(int i = getStartFloor(); i < getDestinationFloor(numFloors) && i < getDestinationFloor(numFloors); i++ ){
+                setGoingUp(true);
+            }
+        }
+
+        return false;
     }
 
     public int getNumFloors() {
@@ -61,39 +79,13 @@ public class Passenger implements Comparable<Passenger> {
         this.numFloors = numFloors;
     }
 
+    public int getDestFloor() {
+        return destFloor;
+    }
 
-    // public static void main(String[] args) {
-    //     int numFloors = 10;
-    //     PriorityQueue<Passenger> minHeap = new PriorityQueue<>();
-    //     for (int i = 0; i < 10; i++) {
-    //         Passenger p = new Passenger(numFloors);
-    //         minHeap.offer(p);
-    //     }
-    //     while (!minHeap.isEmpty()) {
-    //         Passenger p = minHeap.poll();
-    //         System.out.println("Passenger wants to go from floor " + p.getStartFloor() +
-    //                 " to floor " + p.getDestFloor() + " (going up? " + p.isGoingUp() + ")");
-    //     }
-    // }
+    public void setDestFloor(int destFloor) {
+        this.destFloor = destFloor;
+    }
+
+
 }
-//public class Passenger {
-//    Queue<String> queue = new LinkedList<>();
-//    private int passengers;
-//
-//    public int getPassengers() {
-//        return passengers;
-//    }
-//
-//    public void setPassengers(int passengers) {
-//        this.passengers = passengers;
-//    }
-//
-//    public int levels(int level){
-//        Passenger passenger = new Passenger();
-//        Floor floors = new Floor();
-//        Random rand = new Random();
-//        //floors = 2 + rand.nextInt(31);
-//        passenger.setPassengers(1);
-//        return passengers;
-//    }
-//}
