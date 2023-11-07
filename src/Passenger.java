@@ -21,6 +21,7 @@ public class Passenger implements Comparable<Passenger> {
             destFloor = getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
         } while (destFloor == startFloor);
         goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
+        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor);
     }
 
 
@@ -28,16 +29,28 @@ public class Passenger implements Comparable<Passenger> {
             return Integer.compare(this.getDestFloor(), other.getDestFloor());
     }
 
+    public int getDestinationFloor(int numFloors) {
+        Random random = new Random();
+        int destinationFloor = random.nextInt(numFloors) + 1;
+        while (destinationFloor > numFloors) {
+            destinationFloor = random.nextInt(numFloors) + 1;
+        }
+        return destinationFloor;
+    }
 
-
+    public boolean getDirection() {
+        if(getDestFloor() > getStartFloor()){
+                setGoingUp(true);
+                System.out.println("Passenger is Going Up");
+                return isGoingUp();
+        }
+        System.out.println("Passenger is Going Down");
+        return isGoingUp();
+    }
 
     public int getStartFloor() {
         return startFloor;
     }
-
-//    public int getDestFloor() {
-//        return destFloor;
-//    }
 
     public boolean isGoingUp() {
         return goingUp;
@@ -51,41 +64,22 @@ public class Passenger implements Comparable<Passenger> {
         this.goingUp = goingUp;
     }
 
-    public int getDestinationFloor(int numFloors) {
-        Random random = new Random();
-        int destinationFloor = random.nextInt(numFloors) + 1;
-        while (destinationFloor > numFloors) {
-            destinationFloor = random.nextInt(numFloors) + 1;
-        }
-        return destinationFloor;
-    }
-
-
-    public boolean getDirection() {
-        if(getNumFloors() == getStartFloor() && getDestinationFloor(numFloors) > getStartFloor()){
-            for(int i = getStartFloor(); i < getDestinationFloor(numFloors) && i < getDestinationFloor(numFloors); i++ ){
-                setGoingUp(true);
-            }
-        }
-
-        return false;
-    }
 
     public int getNumFloors() {
         return numFloors;
     }
 
-    public void setNumFloors(int numFloors) {
-        this.numFloors = numFloors;
-    }
+//    public void setNumFloors(int numFloors) {
+//        this.numFloors = numFloors;
+//    }
 
     public int getDestFloor() {
         return destFloor;
     }
 
-    public void setDestFloor(int destFloor) {
-        this.destFloor = destFloor;
-    }
+//    public void setDestFloor(int destFloor) {
+//        this.destFloor = destFloor;
+//    }
 
 
 }

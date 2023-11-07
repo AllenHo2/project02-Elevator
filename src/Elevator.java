@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 public class Elevator {
 
     private int numFloor; //number of floors
@@ -8,14 +10,26 @@ public class Elevator {
 
     private boolean goingUp; //is going up
     private  int capacity; //capacity of elevator
+    private int amount;
 
-    public Elevator(int floorNum) {
+    private PriorityQueue<Passenger> inElevator;
+
+    private int tick;
+
+    public Elevator(int floorNum, int elevatorCapacity, int amountOfElevators) {
         this.numFloor = floorNum;
+        this.capacity = elevatorCapacity;
+        this.amount = amountOfElevators;
+        this.inElevator = new PriorityQueue<Passenger>();
+
     }
 
 
-
+    public int loadPassengers(){
+        return 2;
+    }
     public int currFloor(){
+
         return 0;
     }
     public boolean getDirection() {
@@ -68,5 +82,9 @@ public class Elevator {
     }
     public int getCapacity() {
         return capacity;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }

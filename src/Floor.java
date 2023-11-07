@@ -1,35 +1,35 @@
 import java.util.LinkedList;
 import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.ArrayDeque;
 public class Floor {
     private int floorNum;
     private int capacity;
-    private Queue<Passenger> upQueue;
-    private Queue<Passenger> downQueue;
+    private Deque<Passenger> upQueue;
+    private Deque<Passenger> downQueue;
 
-    private int currFloor;
-
+    private int currFloor; //minimum of 5 and desired floors
     public Floor(int floorNum, String structures) {
         this.floorNum = floorNum; //number of floors
         //  private int numFloors;
         if(structures.equals("linked")) {
-            this.upQueue = new PriorityQueue<>();
-            this.downQueue = new PriorityQueue<>();
+            this.upQueue = new LinkedList<>();
+            this.downQueue = new LinkedList<>();
         } else if (structures.equals("array")){
             this.upQueue = new ArrayDeque<>();
             this.downQueue = new ArrayDeque<>();
         } else {
-            this.upQueue = new PriorityQueue<>();
-            this.downQueue = new PriorityQueue<>();
+            this.upQueue = new LinkedList<>();
+            this.downQueue = new LinkedList<>();
         }
     }
 
     public void addPassenger(Passenger passenger) {
-        if (passenger.getDestinationFloor(floorNum) > floorNum && upQueue.size() != getCapacity()) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
+        if (passenger.getDestFloor() > floorNum && upQueue.size() != getCapacity()) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
             upQueue.add(passenger);
-        } else if (passenger.getDestinationFloor(floorNum) < floorNum && downQueue.size() != getCapacity()){
+        } else if (passenger.getDestFloor() < floorNum && downQueue.size() != getCapacity()){
             downQueue.add(passenger); //else add them to the queue going down
         }
     }
@@ -37,25 +37,25 @@ public class Floor {
 
     public void dropPassengers(Elevator elevator) {
         if (elevator.getDirection() == elevator.isGoingUp()) { //if the elevator is going up
-            while (!upQueue.isEmpty() && upQueue.peek().getDestinationFloor(floorNum) == getCurrFloor()) { //if UpQ is empty and the passenger has destination floor = currentfloor then drop them off
+            while (!upQueue.isEmpty() && upQueue.peek().getDestFloor() == getCurrFloor()) { //if UpQ is empty and the passenger has destination floor = currentfloor then drop them off
                 elevator.addPassenger(upQueue.poll());
             }
         } else if (elevator.getDirection() != elevator.isGoingUp()) {
-            while (!downQueue.isEmpty() && downQueue.peek().getDestinationFloor(floorNum) == getCurrFloor()) {
+            while (!downQueue.isEmpty() && downQueue.peek().getDestFloor() == getCurrFloor()) {
                 elevator.addPassenger(downQueue.poll());
             }
         }
     }
 
 
-    public Passenger getRandomPassenger() {
-        Random random = new Random();
-        if (random.nextBoolean()) {
-            return getNextUpPassenger();
-        } else {
-            return getNextDownPassenger();
-        }
-    }
+//    public Passenger getRandomPassenger() {
+//        Random random = new Random();
+//        if (random.nextBoolean()) {
+//            return getNextUpPassenger();
+//        } else {
+//            return getNextDownPassenger();
+//        }
+//    }
 
 //    public int getNumFloors() {
 //        return numFloors;
@@ -92,19 +92,19 @@ public class Floor {
     public int getFloorNum() {
         return floorNum;
     }
-    public Queue<Passenger> getUpQueue() {
+    public Deque<Passenger> getUpQueue() {
         return upQueue;
     }
 
-    public void setUpQueue(Queue<Passenger> upQueue) {
+    public void setUpQueue(Deque<Passenger> upQueue) {
         this.upQueue = upQueue;
     }
 
-    public Queue<Passenger> getDownQueue() {
+    public Deque<Passenger> getDownQueue() {
         return downQueue;
     }
 
-    public void setDownQueue(Queue<Passenger> downQueue) {
+    public void setDownQueue(Deque<Passenger> downQueue) {
         this.downQueue = downQueue;
     }
 
@@ -142,31 +142,3 @@ public class Floor {
      * @param level
      * @return
      */
-
-//    private int floorNums;
-//
-//    public int getFloorNums() {
-//        return floorNums;
-//    }
-//
-//    public void setFloorNums(int floorNums) {
-//        this.floorNums = floorNums;
-//    }
-//
-//    public Floor(){
-//       int levels = 32;
-//       Passenger passenger = new Passenger();
-//       int counter = 0;
-//        for(int i = 0; i < levels; i++){
-//            counter ++;
-//        }
-//
-//    }
-//
-//    public void dropPassengers(){
-//        if()
-//    }
-//    public void addPassengers(){
-//
-//    }
-//}

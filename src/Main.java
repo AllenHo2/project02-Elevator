@@ -6,45 +6,52 @@ import java.util.Properties;
 import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Press Opt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
+        int floor = 0;
+        double probability = 0;
+        int elevator = 0;
+        int capacity = 0;
+        int ticks = 0;
+        int counter = 0;
+        String structure = "";
+    if(args.length == 0) {
         FileReader reader = new FileReader("db.properties");
         Properties p = new Properties();
         p.load(reader);
 
 
-        String structure = p.getProperty("structures");
-        int floor = Integer.parseInt(p.getProperty("floors"));
-        double probability = Float.parseFloat(p.getProperty("passengers"));
-        int elevator = Integer.parseInt(p.getProperty("elevators"));
-        int capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
-        int ticks = Integer.parseInt(p.getProperty("duration"));
-        int counter = 0;
-//        System.out.println(floor);
-//        System.out.println(probability);
-//        System.out.println(elevator);
-//        System.out.println(capacity);
-//        System.out.println(ticks);
+        structure = p.getProperty("structures");
+        floor = Integer.parseInt(p.getProperty("floors"));
+        probability = Float.parseFloat(p.getProperty("passengers"));
+        elevator = Integer.parseInt(p.getProperty("elevators"));
+        capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
+        ticks = Integer.parseInt(p.getProperty("duration"));
+    } else if (args.length == 1){
+        FileReader reader = new FileReader(args[0]);
+        Properties p = new Properties();
+        p.load(reader);
+
+
+        structure = p.getProperty("structures");
+        floor = Integer.parseInt(p.getProperty("floors"));
+        probability = Float.parseFloat(p.getProperty("passengers"));
+        elevator = Integer.parseInt(p.getProperty("elevators"));
+        capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
+        ticks = Integer.parseInt(p.getProperty("duration"));
+    }
+        //System.out.println(floor);
         Floor floors = new Floor(floor, structure);
         Passenger passengers = new Passenger(floor);
-
+        System.out.println(passengers.getDirection());
        // passengers.levels(floors.floorLevel(p.getProperty("floors"));
 
         for (int i = 0; i < ticks; i++){
             counter++;
         }
-        Elevator elevator1 = new Elevator(floor);
+        Elevator elevator1 = new Elevator(floor, capacity, elevator);
         System.out.println("--- Elevator is on floor " + elevator1.currFloor() + " ---");
         System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
         System.out.println("--- Elevator has arrived at " + elevator1.currFloor() + " ---");
+        System.out.println("--- Average length of time between passenger arrival and conveyance to the final destination ");
 
-      //   System.out.println(floors.floorLevel(p.getProperty("floors")));
-      //   String structures = p.getProperty("structures");
-//         System.out.println(p.getProperty("structures")); //Elevator class
-//         System.out.println(p.getProperty("floors")); //Floor Class
-//         System.out.println(p.getProperty("passengers")); //Passengers Class
-//         System.out.println(p.getProperty("elevators")); //Elevator Class
-//         System.out.println(p.getProperty("elevatorCapacity")); //Elevator Class
-//         System.out.println(p.getProperty("duration")); //Analysis Class
     }
 }
