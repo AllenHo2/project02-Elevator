@@ -1,5 +1,7 @@
+import java.util.Collection;
+import java.util.Collections;
 import java.util.PriorityQueue;
-
+import java.util.Random;
 public class Elevator {
 
     private int numFloor; //number of floors
@@ -12,35 +14,79 @@ public class Elevator {
     private  int capacity; //capacity of elevator
     private int amount;
 
-    private PriorityQueue<Passenger> inElevator;
+    private PriorityQueue<Passenger> upElevator;
+    private PriorityQueue<Passenger> downElevator;
 
+    private Floor[] allFloors;
     private int tick;
 
-    public Elevator(int floorNum, int elevatorCapacity, int amountOfElevators) {
+
+    private int currFloor;
+
+    private String structure;
+    public Elevator(int floorNum, int elevatorCapacity, int amountOfElevators, String structures, Floor[] allFloors) {
         this.numFloor = floorNum;
         this.capacity = elevatorCapacity;
         this.amount = amountOfElevators;
-        this.inElevator = new PriorityQueue<Passenger>();
+        this.allFloors = allFloors;
+        this.upElevator = new PriorityQueue<Passenger>();
+        this.downElevator = new PriorityQueue<Passenger>(Collections.reverseOrder());
+        this.structure = structures;
+        this.currFloor = 1; //elevator starts at ground
 
     }
-
-
-    public int loadPassengers(){
-        return 2;
-    }
-    public int currFloor(){
-
-        return 0;
-    }
-    public boolean getDirection() {
-        if(getNumFloor() == getStartFloor() && getDestFloor() > getStartFloor()){
-            for(int i = getStartFloor(); i < getDestFloor() && i < getNumFloor(); i++ ){
-                setGoingUp(true);
+    public void moveElevator(){
+        Passenger passenger = new Passenger(getNumFloor());
+        addPassengers(passenger);
+        if(passenger.getDirection()){
+            if(currFloor < passenger.getDestFloor() && currFloor <= 5){
+                currFloor++;
             }
         }
-
-        return false;
     }
+
+    public Passenger addPassengers(Passenger passenger){
+       // Passenger passenger = new Passenger(getNumFloor());
+        Floor floor = new Floor(getNumFloor(), getStructure());
+        if(passenger.getDirection() && upElevator.size() <= getCapacity()){
+            upElevator.add(floor.queuePassenger(passenger));
+            System.out.println("Passenger is added to the up elevator" );
+            capacity--;
+            System.out.println("Capacity: " + capacity );
+
+        } else if (!passenger.getDirection() && downElevator.size()<= getCapacity()){
+            downElevator.add(floor.queuePassenger(passenger));
+            System.out.println("Passenger is added to the down elevator" );
+            capacity--;
+            System.out.println("Capacity: " + capacity );
+        }
+        return passenger;
+    }
+
+    public void dropPassengers(){
+        Passenger passenger = new Passenger(getNumFloor());
+        Floor floor = new Floor(getNumFloor(), getStructure());
+        if(currFloor == passenger.getDestFloor() && passenger.getDirection()){
+            upElevator.poll();
+            capacity++;
+            System.out.println("Capacity: " + capacity );
+        } else if (currFloor == passenger.getDestFloor() && !passenger.getDirection()){
+            downElevator.poll();
+            capacity++;
+            System.out.println("Capacity: " + capacity );
+        }
+    }
+
+//
+//    public boolean getDirection() {
+//        if(getNumFloor() == getStartFloor() && getDestFloor() > getStartFloor()){
+//            for(int i = getStartFloor(); i < getDestFloor() && i < getNumFloor(); i++ ){
+//                setGoingUp(true);
+//            }
+//        }
+//
+//        return false;
+//    }
 
 
 
@@ -86,5 +132,16 @@ public class Elevator {
 
     public int getAmount() {
         return amount;
+    }
+    public String getStructure() {
+        return structure;
+    }
+
+    public int getCurrFloor() {
+        return currFloor;
+    }
+
+    public void setCurrFloor(int currFloor) {
+        this.currFloor = currFloor;
     }
 }

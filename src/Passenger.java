@@ -12,6 +12,7 @@ public class Passenger implements Comparable<Passenger> {
     private int destFloor; //destination floor
     private boolean goingUp; //if the elevator is going up or not
     private int numFloors; // number of floors
+    private int nearestDestination;
 
     public Passenger(int numFloor) { //constructs Passenger with argument 32 floors
         this.numFloors = numFloor;//sets the number of floors to the amount passed into the argument (default 32)
@@ -21,7 +22,8 @@ public class Passenger implements Comparable<Passenger> {
             destFloor = getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
         } while (destFloor == startFloor);
         goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
-        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor);
+        nearestDestination = destFloor - startFloor;
+        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
     }
 
 
@@ -43,9 +45,10 @@ public class Passenger implements Comparable<Passenger> {
                 setGoingUp(true);
                 System.out.println("Passenger is Going Up");
                 return isGoingUp();
+        } else {
+            System.out.println("Passenger is Going Down");
+            return isGoingUp();
         }
-        System.out.println("Passenger is Going Down");
-        return isGoingUp();
     }
 
     public int getStartFloor() {
@@ -75,6 +78,9 @@ public class Passenger implements Comparable<Passenger> {
 
     public int getDestFloor() {
         return destFloor;
+    }
+    public int getNearestDestination() {
+        return nearestDestination;
     }
 
 //    public void setDestFloor(int destFloor) {

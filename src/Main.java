@@ -7,7 +7,7 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
         int floor = 0;
-        double probability = 0;
+        float probability = 0;
         int elevator = 0;
         int capacity = 0;
         int ticks = 0;
@@ -40,17 +40,23 @@ public class Main {
     }
         //System.out.println(floor);
         Floor floors = new Floor(floor, structure);
-        Passenger passengers = new Passenger(floor);
-        System.out.println(passengers.getDirection());
+        Floor[] allFloors = new Floor[floor];
+        Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors);
+      //  Passenger passengers = new Passenger(floor);
+      //  System.out.println(floors.queuePassenger(passengers));
+       // System.out.println(passengers.getDirection());
        // passengers.levels(floors.floorLevel(p.getProperty("floors"));
 
-        for (int i = 0; i < ticks; i++){
-            counter++;
+        for (int i = 0; i < 5; i++){
+            elevator1.moveElevator();
+            //elevator1.addPassengers();
+           // counter++;
         }
-        Elevator elevator1 = new Elevator(floor, capacity, elevator);
-        System.out.println("--- Elevator is on floor " + elevator1.currFloor() + " ---");
+
+     //   System.out.println(elevator1.addPassengers());
+        System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");
         System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
-        System.out.println("--- Elevator has arrived at " + elevator1.currFloor() + " ---");
+        System.out.println("--- Elevator has arrived at " + elevator1.getCurrFloor() + " ---");
         System.out.println("--- Average length of time between passenger arrival and conveyance to the final destination ");
 
     }

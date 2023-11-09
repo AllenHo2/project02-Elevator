@@ -1,18 +1,23 @@
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Deque;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.ArrayDeque;
+import java.util.Random;
+
 public class Floor {
     private int floorNum;
-    private int capacity;
+
+    //private int capacity;
+
+    private float probability;
     private Deque<Passenger> upQueue;
     private Deque<Passenger> downQueue;
 
-    private int currFloor; //minimum of 5 and desired floors
+   // private int currFloor; //minimum of 5 and desired floors
     public Floor(int floorNum, String structures) {
         this.floorNum = floorNum; //number of floors
+       // this.capacity = capacity;
+        //this.probability = probability;
+        Random random= new Random();
         //  private int numFloors;
         if(structures.equals("linked")) {
             this.upQueue = new LinkedList<>();
@@ -24,28 +29,34 @@ public class Floor {
             this.upQueue = new LinkedList<>();
             this.downQueue = new LinkedList<>();
         }
+
     }
 
-    public void addPassenger(Passenger passenger) {
-        if (passenger.getDestFloor() > floorNum && upQueue.size() != getCapacity()) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
+    public Passenger queuePassenger(Passenger passenger) {
+        if (passenger.getNearestDestination() > 0) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
             upQueue.add(passenger);
-        } else if (passenger.getDestFloor() < floorNum && downQueue.size() != getCapacity()){
+            System.out.println("Passenger is added to UpQueue");
+           // System.out.println("Capacity is " + capacity);
+        } else if (passenger.getNearestDestination() < 0){
             downQueue.add(passenger); //else add them to the queue going down
+            System.out.println("Passenger is added to DownQueue");
+           // System.out.println("Capacity is " + capacity);
         }
+        return passenger;
     }
 
 
-    public void dropPassengers(Elevator elevator) {
-        if (elevator.getDirection() == elevator.isGoingUp()) { //if the elevator is going up
-            while (!upQueue.isEmpty() && upQueue.peek().getDestFloor() == getCurrFloor()) { //if UpQ is empty and the passenger has destination floor = currentfloor then drop them off
-                elevator.addPassenger(upQueue.poll());
-            }
-        } else if (elevator.getDirection() != elevator.isGoingUp()) {
-            while (!downQueue.isEmpty() && downQueue.peek().getDestFloor() == getCurrFloor()) {
-                elevator.addPassenger(downQueue.poll());
-            }
-        }
-    }
+//    public void dropPassengers(Elevator elevator) {
+//        if (elevator.getDirection() == elevator.isGoingUp()) { //if the elevator is going up
+//            while (!upQueue.isEmpty() && upQueue.peek().getDestFloor() == getCurrFloor()) { //if UpQ is empty and the passenger has destination floor = currentfloor then drop them off
+//                elevator.addPassenger(upQueue.poll());
+//            }
+//        } else if (elevator.getDirection() != elevator.isGoingUp()) {
+//            while (!downQueue.isEmpty() && downQueue.peek().getDestFloor() == getCurrFloor()) {
+//                elevator.addPassenger(downQueue.poll());
+//            }
+//        }
+//    }
 
 
 //    public Passenger getRandomPassenger() {
@@ -64,63 +75,60 @@ public class Floor {
 //    public void setNumFloors(int numFloors) {
 //        this.numFloors = numFloors;
 //    }
-    public boolean hasUpPassengers() {
-        return !upQueue.isEmpty();
-    }
+//    public boolean hasUpPassengers() {
+//        return !upQueue.isEmpty();
+//    }
+//
+//    public boolean hasDownPassengers() {
+//        return !downQueue.isEmpty();
+//    }
+//
+//    public Passenger getNextUpPassenger() {
+//        return upQueue.peek();
+//    }
+//
+//    public Passenger getNextDownPassenger() {
+//        return downQueue.peek();
+//    }
+//
+//    public Passenger removeNextUpPassenger() {
+//        return upQueue.poll();
+//    }
+//
+//    public Passenger removeNextDownPassenger() {
+//        return downQueue.poll();
+//    }
+//
+//
+//    public int getFloorNum() {
+//        return floorNum;
+//    }
+//    public Deque<Passenger> getUpQueue() {
+//        return upQueue;
+//    }
+//
+//    public void setUpQueue(Deque<Passenger> upQueue) {
+//        this.upQueue = upQueue;
+//    }
+//
+//    public Deque<Passenger> getDownQueue() {
+//        return downQueue;
+//    }
+//
+//    public void setDownQueue(Deque<Passenger> downQueue) {
+//        this.downQueue = downQueue;
+//    }
+//
+//    public int getCapacity() {
+//        return capacity;
+//    }
+//    public int getCurrFloor() {
+//        return currFloor;
+//    }
 
-    public boolean hasDownPassengers() {
-        return !downQueue.isEmpty();
-    }
-
-    public Passenger getNextUpPassenger() {
-        return upQueue.peek();
-    }
-
-    public Passenger getNextDownPassenger() {
-        return downQueue.peek();
-    }
-
-    public Passenger removeNextUpPassenger() {
-        return upQueue.poll();
-    }
-
-    public Passenger removeNextDownPassenger() {
-        return downQueue.poll();
-    }
-
-
-    public int getFloorNum() {
-        return floorNum;
-    }
-    public Deque<Passenger> getUpQueue() {
-        return upQueue;
-    }
-
-    public void setUpQueue(Deque<Passenger> upQueue) {
-        this.upQueue = upQueue;
-    }
-
-    public Deque<Passenger> getDownQueue() {
-        return downQueue;
-    }
-
-    public void setDownQueue(Deque<Passenger> downQueue) {
-        this.downQueue = downQueue;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-    public int getCurrFloor() {
-        return currFloor;
-    }
-
-    public void setCurrFloor(int currFloor) {
-        this.currFloor = currFloor;
-    }
-
-
-
+//    public void setCurrFloor(int currFloor) {
+//        this.currFloor = currFloor;
+//    }
 }
     /**randomly generate a floor within 2 & 32, then pass it over to the passengers class
      *Once the passenger class gets a random floor from this Floor object, assign that passenger the number
