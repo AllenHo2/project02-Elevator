@@ -41,6 +41,11 @@ public class Elevator {
         if(passenger.getDirection()){
             if(currFloor < passenger.getDestFloor() && currFloor <= 5){
                 currFloor++;
+                System.out.println("Current Floor: " + currFloor);
+            }
+
+            if (currFloor == passenger.getDestFloor()){
+                dropPassengers(passenger);
             }
         }
     }
@@ -50,24 +55,25 @@ public class Elevator {
         Floor floor = new Floor(getNumFloor(), getStructure());
         if(passenger.getDirection() && upElevator.size() <= getCapacity()){
             upElevator.add(floor.queuePassenger(passenger));
-            System.out.println("Passenger is added to the up elevator" );
+            System.out.println("Passenger is added to the up elevator " + passenger );
             capacity--;
             System.out.println("Capacity: " + capacity );
 
         } else if (!passenger.getDirection() && downElevator.size()<= getCapacity()){
             downElevator.add(floor.queuePassenger(passenger));
-            System.out.println("Passenger is added to the down elevator" );
+            System.out.println("Passenger is added to the down elevator " + passenger);
             capacity--;
             System.out.println("Capacity: " + capacity );
         }
         return passenger;
     }
 
-    public void dropPassengers(){
-        Passenger passenger = new Passenger(getNumFloor());
+    public Passenger dropPassengers(Passenger passenger){
+      //  Passenger passenger = new Passenger(getNumFloor());
         Floor floor = new Floor(getNumFloor(), getStructure());
         if(currFloor == passenger.getDestFloor() && passenger.getDirection()){
-            upElevator.poll();
+          //  upElevator.poll();
+            System.out.println("Passenger with starting floor: " + passenger.getStartFloor() + " & Destination floor: " + passenger.getDestFloor() + " has been polled " + upElevator.poll());
             capacity++;
             System.out.println("Capacity: " + capacity );
         } else if (currFloor == passenger.getDestFloor() && !passenger.getDirection()){
@@ -75,6 +81,7 @@ public class Elevator {
             capacity++;
             System.out.println("Capacity: " + capacity );
         }
+        return passenger;
     }
 
 //

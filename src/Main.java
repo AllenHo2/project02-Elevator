@@ -42,7 +42,6 @@ public class Main {
         Floor floors = new Floor(floor, structure);
         Floor[] allFloors = new Floor[floor];
         Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors);
-      //  Passenger passengers = new Passenger(floor);
       //  System.out.println(floors.queuePassenger(passengers));
        // System.out.println(passengers.getDirection());
        // passengers.levels(floors.floorLevel(p.getProperty("floors"));
