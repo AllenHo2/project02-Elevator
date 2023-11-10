@@ -15,8 +15,11 @@ public class Elevator {
     public PriorityQueue<Passenger> getUpElevator() {
         return upElevator;
     }
-
+    public PriorityQueue<Passenger> getDownElevator() {
+        return downElevator;
+    }
     private PriorityQueue<Passenger> upElevator;
+
     private PriorityQueue<Passenger> downElevator;
 
     private Floor[] allFloors;
@@ -41,59 +44,75 @@ public class Elevator {
         this.currFloor = 1; //elevator starts at ground
 
     }
-    public void moveElevator(){
-        Passenger passenger = new Passenger(getNumFloor());
-        addPassengers(passenger);
+    public void moveElevator(boolean goingUp){
+        //Passenger passenger = new Passenger(getNumFloor());
+        //addPassengers(passenger);
         if(goingUp){
-            if(currFloor < passenger.getDestFloor() && passenger.getDestFloor() > 5 ){
+            load(allFloors[currFloor].getUpQueue());
+            Passenger passenger1 = upElevator.peek();
+            if(passenger1 != null && currFloor < passenger1.getDestFloor() && passenger1.getDestFloor() > 5 ){
                 currFloor += 5;
                 System.out.println("Current Floor: " + currFloor);
+            } else if(passenger1 != null && currFloor == passenger1.getDestFloor()) {
+                    dropPassengers(passenger1);
+            } else if (passenger1 != null){
+                currFloor += passenger1.getDestFloor() - currFloor;
+                System.out.println("Current Floor: " + currFloor);
+            }
+        } else {
+            load(allFloors[currFloor].getDownQueue());
+            Passenger passenger2 = downElevator.peek();
+            if(passenger2 != null && currFloor < passenger2.getDestFloor() && passenger2.getDestFloor() > 5 ){
+                currFloor += 5;
+                System.out.println("Current Floor: " + currFloor);
+            } else if ( passenger2 != null && currFloor == passenger2.getDestFloor()){
+                //Passenger passenger = downElevator.poll();
+                    dropPassengers(passenger2);
             } else {
                 //currFloor += upElevator.peek() - currFloor;
                 System.out.println("Current Floor: " + currFloor);
             }
 
-            if (currFloor == passenger.getDestFloor()){
-                dropPassengers(passenger);
-            }
         }
     }
 
-    public void addPassengers(Passenger passenger) {
-        // Passenger passenger = new Passenger(getNumFloor());
-        //Floor floor = new Floor(getNumFloor(), getStructure(), allFloors.getProbability());
-        if(upElevator.size() > getCapacity() || downElevator.size() > getCapacity()){
-            System.out.println("Elevator capacity exceeded. Cannot add passenger " + passenger);
-
-        }else if(passenger.getDirection() && upElevator.size() <= getCapacity()){
-            upElevator.add(passenger);
-            System.out.println("Passenger is added to the up elevator " + passenger );
-            capacity--;
-            System.out.println("Capacity: " + capacity );
-
-        } else if (!passenger.getDirection() && downElevator.size()<= getCapacity()){
-            downElevator.add(passenger);
-            System.out.println("Passenger is added to the down elevator " + passenger);
-            capacity--;
-            System.out.println("Capacity: " + capacity );
-        }
-        //return passenger;
-    }
+//    public void addPassengers(Passenger passenger) {
+//        // Passenger passenger = new Passenger(getNumFloor());
+//        //Floor floor = new Floor(getNumFloor(), getStructure(), allFloors.getProbability());
+//        if(upElevator.size() > getCapacity() || downElevator.size() > getCapacity()){
+//            System.out.println("Elevator capacity exceeded. Cannot add passenger " + passenger);
+//
+//        }else if(passenger.getDirection() && upElevator.size() <= getCapacity()){
+//            upElevator.add(passenger);
+//            System.out.println("Passenger is added to the up elevator " + passenger );
+//            capacity--;
+//            System.out.println("Capacity: " + capacity );
+//
+//        } else if (!passenger.getDirection() && downElevator.size()<= getCapacity()){
+//            downElevator.add(passenger);
+//            System.out.println("Passenger is added to the down elevator " + passenger);
+//            capacity--;
+//            System.out.println("Capacity: " + capacity );
+//        }
+//        //return passenger;
+//    }
 
 
     public void load(Deque<Passenger> passengers){ //loads an entire queue of passengers from a single floor into the elevator(appropriate heap)
         if(goingUp){ //if going up
-            while(upElevator.size() <= capacity){ //while there is space in the elevator
+            while(upElevator.size() <= capacity && !passengers.isEmpty()){ //while there is space in the elevator
+                System.out.println("Passenger is added to the up elevator " + passengers.peek() );
                 upElevator.add(passengers.poll()); //poll all the passengers from the floor into the elevator going down
             }
         } else { //if going down
-            while(downElevator.size() <= capacity) { //while there is space in the elevator
+            while(downElevator.size() <= capacity && !passengers.isEmpty()) { //while there is space in the elevator
+                System.out.println("Passenger is added to the down elevator " + passengers.peek() );
                 downElevator.add(passengers.poll()); //poll all the passengers from the floor into the elevator going down
             }
         }
     }
 
-    public Passenger dropPassengers(Passenger passenger){
+    public void dropPassengers(Passenger passenger){
        // Floor floor = new Floor(getNumFloor(), getStructure(), allFloors.getProbability());
         if(currFloor == passenger.getDestFloor() && passenger.getDirection()){
             System.out.println("Passenger with starting floor: " + passenger.getStartFloor() + " & Destination floor: " + passenger.getDestFloor() + " has been polled " + upElevator.poll());
@@ -104,7 +123,6 @@ public class Elevator {
             capacity++;
             System.out.println("Capacity: " + capacity );
         }
-        return passenger;
     }
 
 //

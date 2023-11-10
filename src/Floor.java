@@ -32,17 +32,22 @@ public class Floor {
 
     }
 
-    public void queuePassenger(Passenger passenger) {
-        if (passenger.getNearestDestination() > 0) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
-            upQueue.add(passenger);
-            System.out.println("Passenger is added to UpQueue");
-           // System.out.println("Capacity is " + capacity);
-        } else if (passenger.getNearestDestination() < 0){
-            downQueue.add(passenger); //else add them to the queue going down
-            System.out.println("Passenger is added to DownQueue");
-           // System.out.println("Capacity is " + capacity);
+    public void queuePassenger() {
+        Random random = new Random();
+        if(random.nextFloat() < probability) {
+            Passenger passenger = new Passenger(floorNum);
+            if (passenger.getNearestDestination() > 0) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
+                upQueue.add(passenger);
+                System.out.println("Passenger" + passenger + " is added to UpQueue");
+                // System.out.println("Capacity is " + capacity);
+            } else if (passenger.getNearestDestination() < 0) {
+                downQueue.add(passenger); //else add them to the queue going down
+                System.out.println("Passenger" + passenger + " is added to DownQueue");
+                // System.out.println("Capacity is " + capacity);
+            }
         }
     }
+
 
 
 
