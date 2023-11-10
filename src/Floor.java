@@ -9,14 +9,14 @@ public class Floor {
     //private int capacity;
 
     private float probability;
+
     private Deque<Passenger> upQueue;
     private Deque<Passenger> downQueue;
 
    // private int currFloor; //minimum of 5 and desired floors
-    public Floor(int floorNum, String structures) {
+    public Floor(int floorNum, String structures, float probability) {
         this.floorNum = floorNum; //number of floors
-       // this.capacity = capacity;
-        //this.probability = probability;
+        this.probability = probability;
         Random random= new Random();
         //  private int numFloors;
         if(structures.equals("linked")) {
@@ -32,7 +32,7 @@ public class Floor {
 
     }
 
-    public Passenger queuePassenger(Passenger passenger) {
+    public void queuePassenger(Passenger passenger) {
         if (passenger.getNearestDestination() > 0) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
             upQueue.add(passenger);
             System.out.println("Passenger is added to UpQueue");
@@ -42,9 +42,22 @@ public class Floor {
             System.out.println("Passenger is added to DownQueue");
            // System.out.println("Capacity is " + capacity);
         }
-        return passenger;
     }
 
+
+
+
+    public Deque<Passenger> getUpQueue() {
+        return upQueue;
+    }
+
+    public Deque<Passenger> getDownQueue() {
+        return downQueue;
+    }
+
+    public float getProbability() {
+        return probability;
+    }
 
 //    public void dropPassengers(Elevator elevator) {
 //        if (elevator.getDirection() == elevator.isGoingUp()) { //if the elevator is going up

@@ -11,13 +11,11 @@ public class Main {
         int elevator = 0;
         int capacity = 0;
         int ticks = 0;
-        int counter = 0;
         String structure = "";
     if(args.length == 0) {
         FileReader reader = new FileReader("db.properties");
         Properties p = new Properties();
         p.load(reader);
-
 
         structure = p.getProperty("structures");
         floor = Integer.parseInt(p.getProperty("floors"));
@@ -30,7 +28,6 @@ public class Main {
         Properties p = new Properties();
         p.load(reader);
 
-
         structure = p.getProperty("structures");
         floor = Integer.parseInt(p.getProperty("floors"));
         probability = Float.parseFloat(p.getProperty("passengers"));
@@ -39,20 +36,27 @@ public class Main {
         ticks = Integer.parseInt(p.getProperty("duration"));
     }
         //System.out.println(floor);
-        Floor floors = new Floor(floor, structure);
+        Floor floors = new Floor(floor, structure, probability);
         Floor[] allFloors = new Floor[floor];
-        Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors);
-      //  System.out.println(floors.queuePassenger(passengers));
-       // System.out.println(passengers.getDirection());
-       // passengers.levels(floors.floorLevel(p.getProperty("floors"));
-
-        for (int i = 0; i < 5; i++){
-            elevator1.moveElevator();
-            //elevator1.addPassengers();
-           // counter++;
+        Elevator[] elevator2 = new Elevator[floor];
+        Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
+        for(int i  = 0; i < floor - 1; i++){
+            Random random = new Random();
+            if(random.nextFloat() <= probability) {
+            Passenger passenger = new Passenger(floor);
+            }
+            allFloors[i] = new Floor(floor, structure, probability);
+        }
+        for(int i  = 0; i < floor - 1; i++){
+            elevator2[i] = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
+          //  elevator2[i].load(allFloors[elevator2[i].getNumFloor()].getDownQueue());
         }
 
-     //   System.out.println(elevator1.addPassengers());
+        for (int i = 0; i < 10; i++){
+            elevator1.moveElevator();
+        }
+        System.out.println(elevator1.getUpElevator().peek());
+
         System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");
         System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
         System.out.println("--- Elevator has arrived at " + elevator1.getCurrFloor() + " ---");

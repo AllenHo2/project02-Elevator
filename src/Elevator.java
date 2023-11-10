@@ -1,7 +1,5 @@
-import java.util.Collection;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
+
 public class Elevator {
 
     private int numFloor; //number of floors
@@ -14,6 +12,10 @@ public class Elevator {
     private  int capacity; //capacity of elevator
     private int amount;
 
+    public PriorityQueue<Passenger> getUpElevator() {
+        return upElevator;
+    }
+
     private PriorityQueue<Passenger> upElevator;
     private PriorityQueue<Passenger> downElevator;
 
@@ -24,11 +26,15 @@ public class Elevator {
     private int currFloor;
 
     private String structure;
-    public Elevator(int floorNum, int elevatorCapacity, int amountOfElevators, String structures, Floor[] allFloors) {
+
+    private float probability;
+
+    public Elevator(int floorNum, int elevatorCapacity, int amountOfElevators, String structures, Floor[] allFloors, float probability) {
         this.numFloor = floorNum;
+        this.probability = probability;
         this.capacity = elevatorCapacity;
         this.amount = amountOfElevators;
-        this.allFloors = allFloors;
+        this.allFloors =  allFloors;
         this.upElevator = new PriorityQueue<Passenger>();
         this.downElevator = new PriorityQueue<Passenger>(Collections.reverseOrder());
         this.structure = structures;
@@ -38,9 +44,12 @@ public class Elevator {
     public void moveElevator(){
         Passenger passenger = new Passenger(getNumFloor());
         addPassengers(passenger);
-        if(passenger.getDirection()){
-            if(currFloor < passenger.getDestFloor() && currFloor <= 5){
-                currFloor++;
+        if(goingUp){
+            if(currFloor < passenger.getDestFloor() && passenger.getDestFloor() > 5 ){
+                currFloor += 5;
+                System.out.println("Current Floor: " + currFloor);
+            } else {
+                //currFloor += upElevator.peek() - currFloor;
                 System.out.println("Current Floor: " + currFloor);
             }
 
@@ -50,34 +59,48 @@ public class Elevator {
         }
     }
 
-    public Passenger addPassengers(Passenger passenger){
-       // Passenger passenger = new Passenger(getNumFloor());
-        Floor floor = new Floor(getNumFloor(), getStructure());
-        if(passenger.getDirection() && upElevator.size() <= getCapacity()){
-            upElevator.add(floor.queuePassenger(passenger));
+    public void addPassengers(Passenger passenger) {
+        // Passenger passenger = new Passenger(getNumFloor());
+        //Floor floor = new Floor(getNumFloor(), getStructure(), allFloors.getProbability());
+        if(upElevator.size() > getCapacity() || downElevator.size() > getCapacity()){
+            System.out.println("Elevator capacity exceeded. Cannot add passenger " + passenger);
+
+        }else if(passenger.getDirection() && upElevator.size() <= getCapacity()){
+            upElevator.add(passenger);
             System.out.println("Passenger is added to the up elevator " + passenger );
             capacity--;
             System.out.println("Capacity: " + capacity );
 
         } else if (!passenger.getDirection() && downElevator.size()<= getCapacity()){
-            downElevator.add(floor.queuePassenger(passenger));
+            downElevator.add(passenger);
             System.out.println("Passenger is added to the down elevator " + passenger);
             capacity--;
             System.out.println("Capacity: " + capacity );
         }
-        return passenger;
+        //return passenger;
+    }
+
+
+    public void load(Deque<Passenger> passengers){ //loads an entire queue of passengers from a single floor into the elevator(appropriate heap)
+        if(goingUp){ //if going up
+            while(upElevator.size() <= capacity){ //while there is space in the elevator
+                upElevator.add(passengers.poll()); //poll all the passengers from the floor into the elevator going down
+            }
+        } else { //if going down
+            while(downElevator.size() <= capacity) { //while there is space in the elevator
+                downElevator.add(passengers.poll()); //poll all the passengers from the floor into the elevator going down
+            }
+        }
     }
 
     public Passenger dropPassengers(Passenger passenger){
-      //  Passenger passenger = new Passenger(getNumFloor());
-        Floor floor = new Floor(getNumFloor(), getStructure());
+       // Floor floor = new Floor(getNumFloor(), getStructure(), allFloors.getProbability());
         if(currFloor == passenger.getDestFloor() && passenger.getDirection()){
-          //  upElevator.poll();
             System.out.println("Passenger with starting floor: " + passenger.getStartFloor() + " & Destination floor: " + passenger.getDestFloor() + " has been polled " + upElevator.poll());
             capacity++;
             System.out.println("Capacity: " + capacity );
         } else if (currFloor == passenger.getDestFloor() && !passenger.getDirection()){
-            downElevator.poll();
+            System.out.println("Passenger with starting floor: " + passenger.getStartFloor() + " & Destination floor: " + passenger.getDestFloor() + " has been polled " + downElevator.poll());
             capacity++;
             System.out.println("Capacity: " + capacity );
         }
