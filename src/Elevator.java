@@ -42,36 +42,41 @@ public class Elevator {
         this.downElevator = new PriorityQueue<Passenger>(Collections.reverseOrder());
         this.structure = structures;
         this.currFloor = 1; //elevator starts at ground
+        this.goingUp = true;
 
     }
-    public void moveElevator(boolean goingUp){
+    public void moveElevator(){
         //Passenger passenger = new Passenger(getNumFloor());
         //addPassengers(passenger);
         if(goingUp){
-            load(allFloors[currFloor].getUpQueue());
+            addPassengers(allFloors[currFloor].getUpQueue());
             Passenger passenger1 = upElevator.peek();
-            if(passenger1 != null && currFloor < passenger1.getDestFloor() && passenger1.getDestFloor() > 5 ){
+            if(passenger1 != null && currFloor < passenger1.getDestFloor() && passenger1.getDestFloor() > 5  && currFloor + 5 <= numFloor){
                 currFloor += 5;
                 System.out.println("Current Floor: " + currFloor);
             } else if(passenger1 != null && currFloor == passenger1.getDestFloor()) {
-                    dropPassengers(passenger1);
-            } else if (passenger1 != null){
+                dropPassengers(passenger1);
+            } else if (passenger1 != null && passenger1.getDestFloor() - currFloor <= numFloor){
                 currFloor += passenger1.getDestFloor() - currFloor;
+                dropPassengers(passenger1);
                 System.out.println("Current Floor: " + currFloor);
+            } else if(currFloor == numFloor || currFloor + 5 > numFloor || passenger1 == null){
+                setGoingUp(false);
             }
         } else {
-            load(allFloors[currFloor].getDownQueue());
+            addPassengers(allFloors[currFloor].getDownQueue());
             Passenger passenger2 = downElevator.peek();
-            if(passenger2 != null && currFloor < passenger2.getDestFloor() && passenger2.getDestFloor() > 5 ){
-                currFloor += 5;
+            if(passenger2 != null && currFloor < passenger2.getDestFloor() && passenger2.getDestFloor() < 5 && currFloor - 5 >= 0){
+                currFloor -= 5;
                 System.out.println("Current Floor: " + currFloor);
-            } else if ( passenger2 != null && currFloor == passenger2.getDestFloor()){
+            } else if ( passenger2 != null && currFloor == passenger2.getDestFloor() && currFloor <= numFloor){
                 //Passenger passenger = downElevator.poll();
                     dropPassengers(passenger2);
-            } else {
-                //currFloor += upElevator.peek() - currFloor;
-                System.out.println("Current Floor: " + currFloor);
+            } else if(currFloor == numFloor || currFloor - 5 < numFloor || passenger2 == null){
+                setGoingUp(true);
             }
+
+
 
         }
     }
@@ -98,16 +103,20 @@ public class Elevator {
 //    }
 
 
-    public void load(Deque<Passenger> passengers){ //loads an entire queue of passengers from a single floor into the elevator(appropriate heap)
+    public void addPassengers(Deque<Passenger> passengers){ //loads an entire queue of passengers from a single floor into the elevator(appropriate heap)
         if(goingUp){ //if going up
             while(upElevator.size() <= capacity && !passengers.isEmpty()){ //while there is space in the elevator
                 System.out.println("Passenger is added to the up elevator " + passengers.peek() );
                 upElevator.add(passengers.poll()); //poll all the passengers from the floor into the elevator going down
+                capacity--;
+                System.out.println("Capacity: " + capacity );
             }
         } else { //if going down
             while(downElevator.size() <= capacity && !passengers.isEmpty()) { //while there is space in the elevator
                 System.out.println("Passenger is added to the down elevator " + passengers.peek() );
                 downElevator.add(passengers.poll()); //poll all the passengers from the floor into the elevator going down
+                capacity--;
+                System.out.println("Capacity: " + capacity );
             }
         }
     }

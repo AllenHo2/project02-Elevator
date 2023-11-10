@@ -43,19 +43,20 @@ public class Main {
         for(int i  = 0; i < floor - 1; i++){
             allFloors[i] = new Floor(floor, structure, probability);
             allFloors[i].queuePassenger();
+
  //           System.out.println(allFloors[i].getUpQueue());
 //            System.out.println(allFloors[i].getDownQueue());
 
         }
-        for(int i  = 0; i < floor - 1; i++){
-            elevator2[i] = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
-            elevator2[i].moveElevator(elevator2[i].isGoingUp());
-          //  elevator2[i].load(allFloors[elevator2[i].getNumFloor()].getDownQueue());
-            System.out.println(elevator2[i].getUpElevator().peek());
-        }
+//        for(int i  = 0; i < elevator; i++){
+//            elevator2[i] = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
+////            elevator2[i].addPassengers(allFloors[elevator2[i].getNumFloor()].getUpQueue());
+////            System.out.println(elevator2[i].getUpElevator().peek());
+//        }
 
-        for (int i = 0; i < 10; i++){
-            elevator1.moveElevator(elevator1.isGoingUp());
+
+        for (int i = 0; i < allFloors.length ; i++){
+            elevator1.moveElevator();
         }
         System.out.println(elevator1.getUpElevator().peek());
 
