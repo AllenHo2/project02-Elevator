@@ -17,13 +17,13 @@ public class Passenger implements Comparable<Passenger> {
     public Passenger(int numFloor) { //constructs Passenger with argument 32 floors
         this.numFloors = numFloor;//sets the number of floors to the amount passed into the argument (default 32)
         Random rand = new Random(); //random object
-        startFloor = rand.nextInt(numFloor) + 1; //start floor is random
+        this.startFloor = rand.nextInt(numFloor) + 1; //start floor is random
         do {
-            destFloor = getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
+            this.destFloor = getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
         } while (destFloor == startFloor);
         goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
-        nearestDestination = destFloor - startFloor;
-        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
+        this.nearestDestination = destFloor - startFloor;
+       // System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
     }
 
 

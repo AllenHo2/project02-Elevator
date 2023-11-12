@@ -41,42 +41,69 @@ public class Elevator {
         this.upElevator = new PriorityQueue<Passenger>();
         this.downElevator = new PriorityQueue<Passenger>(Collections.reverseOrder());
         this.structure = structures;
-        this.currFloor = 1; //elevator starts at ground
+        this.currFloor = 0; //elevator starts at ground
         this.goingUp = true;
-
     }
     public void moveElevator(){
         //Passenger passenger = new Passenger(getNumFloor());
         //addPassengers(passenger);
+//        Queue<Passenger> currentElevator;
+        Iterator<Passenger> iterator;
+        //addPassengers(allFloors);
         if(goingUp){
-            addPassengers(allFloors[currFloor].getUpQueue());
-            Passenger passenger1 = upElevator.peek();
-            if(passenger1 != null && currFloor < passenger1.getDestFloor() && passenger1.getDestFloor() > 5  && currFloor + 5 <= numFloor){
-                currFloor += 5;
-                System.out.println("Current Floor: " + currFloor);
-            } else if(passenger1 != null && currFloor == passenger1.getDestFloor()) {
-                dropPassengers(passenger1);
-            } else if (passenger1 != null && passenger1.getDestFloor() - currFloor <= numFloor){
-                currFloor += passenger1.getDestFloor() - currFloor;
-                dropPassengers(passenger1);
-                System.out.println("Current Floor: " + currFloor);
-            } else if(currFloor == numFloor || currFloor + 5 > numFloor || passenger1 == null){
-                setGoingUp(false);
+            if(allFloors[getCurrFloor()].getUpQueue() != null) {
+                addPassengers(allFloors[getCurrFloor()].getUpQueue());
+                Passenger passenger1 = upElevator.peek();
+                iterator = upElevator.iterator();
+                //System.out.println(iterator.toString());
+                if (passenger1 != null && getCurrFloor() + 5 < passenger1.getDestFloor() && passenger1.getDestFloor() > getCurrFloor() + 5 && getCurrFloor() + 5 <= numFloor) {
+                    this.currFloor += 5;
+                    System.out.println("Current Floor: " + currFloor);
+                } else if (passenger1 != null && (passenger1.getDestFloor() - getCurrFloor()) <= (getNumFloor() - getCurrFloor()) && passenger1.getDestFloor() <= getCurrFloor() + 5 && passenger1.getDestFloor() > getCurrFloor()) {
+//                    System.out.println(passenger1.getDestFloor());
+//                    System.out.println(getCurrFloor());
+//                    System.out.println(passenger1.getDestFloor() - getCurrFloor());
+                    this.currFloor += passenger1.getDestFloor() - getCurrFloor();
+                    dropPassengers(passenger1);
+                    System.out.println("Current Floor: " + currFloor);
+                } else if (currFloor == numFloor || currFloor + 5 > numFloor || !iterator.hasNext()) {
+                    setGoingUp(false);
+                }
             }
-        } else {
-            addPassengers(allFloors[currFloor].getDownQueue());
-            Passenger passenger2 = downElevator.peek();
-            if(passenger2 != null && currFloor < passenger2.getDestFloor() && passenger2.getDestFloor() < 5 && currFloor - 5 >= 0){
-                currFloor -= 5;
-                System.out.println("Current Floor: " + currFloor);
-            } else if ( passenger2 != null && currFloor == passenger2.getDestFloor() && currFloor <= numFloor){
-                //Passenger passenger = downElevator.poll();
+        } else if (!goingUp){
+            if(allFloors[getCurrFloor()].getDownQueue() != null) {
+                addPassengers(allFloors[getCurrFloor()].getDownQueue());
+                Passenger passenger2 = downElevator.peek();
+                iterator = downElevator.iterator();
+                if (passenger2 != null && this.currFloor > passenger2.getDestFloor() && passenger2.getDestFloor() < getCurrFloor() - 5 && getCurrFloor() - 5 >= numFloor) {
+                    this.currFloor -= 5;
+                    System.out.println("Current Floor: " + currFloor);
+                } else if (passenger2 != null && (getCurrFloor() - passenger2.getDestFloor()) >= 0 && passenger2.getDestFloor() >= getCurrFloor() - 5 && passenger2.getDestFloor() < getCurrFloor()) {
+                    this.currFloor += passenger2.getDestFloor() - getCurrFloor();
                     dropPassengers(passenger2);
-            } else if(currFloor == numFloor || currFloor - 5 < numFloor || passenger2 == null){
-                setGoingUp(true);
+                    System.out.println("Current Floor: " + currFloor);
+                } else if (this.currFloor == 0 || currFloor - 5 < 0 || !iterator.hasNext()) {
+                    setGoingUp(true);
+                }
+
+            } else {
+                boolean noMorePassengersAbove = true;
+                for (int i = currFloor + 1; i <= numFloor; i++) {
+                    if (allFloors[i].getUpQueue() != null && !allFloors[i].getUpQueue().isEmpty()) {
+                        noMorePassengersAbove = false;
+                        break;
+                    }
+                }
+
+                if (noMorePassengersAbove) {
+                    setGoingUp(true);
+                }
             }
-
-
+//            else {
+//                if (allFloors[currFloor].getUpQueue() != null && allFloors[currFloor].getDownQueue() != null) {
+//                    return;
+//                }
+//            }
 
         }
     }

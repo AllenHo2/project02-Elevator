@@ -39,26 +39,31 @@ public class Main {
         Floor floors = new Floor(floor, structure, probability);
         Floor[] allFloors = new Floor[floor];
         Elevator[] elevator2 = new Elevator[floor];
-        Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
         for(int i  = 0; i < floor - 1; i++){
             allFloors[i] = new Floor(floor, structure, probability);
             allFloors[i].queuePassenger();
 
+;
  //           System.out.println(allFloors[i].getUpQueue());
 //            System.out.println(allFloors[i].getDownQueue());
 
         }
+//        for(int i = 0; i< floor - 1; i++) {
+//            System.out.println("this is UpQueue: " + allFloors[i].getUpQueue());
+//           // System.out.println("this is DownQueue: " +allFloors[i].getDownQueue());
+//        }
+        Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
 //        for(int i  = 0; i < elevator; i++){
 //            elevator2[i] = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
 ////            elevator2[i].addPassengers(allFloors[elevator2[i].getNumFloor()].getUpQueue());
 ////            System.out.println(elevator2[i].getUpElevator().peek());
 //        }
-
-
+        elevator1.setGoingUp(true);
         for (int i = 0; i < allFloors.length ; i++){
+
             elevator1.moveElevator();
         }
-        System.out.println(elevator1.getUpElevator().peek());
+       // System.out.println(elevator1.getUpElevator().peek());
 
         System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");
         System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
