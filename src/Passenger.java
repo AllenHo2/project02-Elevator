@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Passenger implements Comparable<Passenger> {
+
     private int startFloor; // starting floor
     private int destFloor; //destination floor
     private boolean goingUp; //if the elevator is going up or not
@@ -27,8 +28,16 @@ public class Passenger implements Comparable<Passenger> {
     }
 
 
+   @Override
     public int compareTo(Passenger other) { //compares a passenger to another
-            return Integer.compare(this.getDestFloor(), other.getDestFloor());
+       int destComparison = Integer.compare(this.destFloor, other.destFloor);
+
+       if (destComparison == 0) {
+           // destFloors are equal, compare startFloors
+           return Integer.compare(this.startFloor, other.startFloor);
+       }
+
+       return destComparison;
     }
 
     public int getDestinationFloor(int numFloors) {
@@ -54,28 +63,12 @@ public class Passenger implements Comparable<Passenger> {
     public int getStartFloor() {
         return startFloor;
     }
-
     public boolean isGoingUp() {
         return goingUp;
     }
-
-    public void setStartFloor(int startFloor) {
-        this.startFloor = startFloor;
-    }
-
     public void setGoingUp(boolean goingUp) {
         this.goingUp = goingUp;
     }
-
-
-    public int getNumFloors() {
-        return numFloors;
-    }
-
-//    public void setNumFloors(int numFloors) {
-//        this.numFloors = numFloors;
-//    }
-
     public int getDestFloor() {
         return destFloor;
     }
@@ -83,9 +76,6 @@ public class Passenger implements Comparable<Passenger> {
         return nearestDestination;
     }
 
-//    public void setDestFloor(int destFloor) {
-//        this.destFloor = destFloor;
-//    }
 
 
 }

@@ -39,12 +39,14 @@ public class Main {
         Floor floors = new Floor(floor, structure, probability);
         Floor[] allFloors = new Floor[floor];
         Elevator[] elevator2 = new Elevator[floor];
-        for(int i  = 0; i < floor; i++){
+
+        for(int i  = 0; i < floor; i++) {
+
             allFloors[i] = new Floor(floor, structure, probability);
             allFloors[i].queuePassenger();
 
-;
- //           System.out.println(allFloors[i].getUpQueue());
+            ;
+//              System.out.println(allFloors[i].getUpQueue());
 //            System.out.println(allFloors[i].getDownQueue());
 
         }
@@ -75,7 +77,7 @@ public class Main {
             }
         }
         for (int i = 0; i < ticks ; i++){
-            elevator1.moveElevator(firstNonEmptyFloor, lastNonEmptyFloor);
+            elevator1.moveElevator();
 
         }
 
