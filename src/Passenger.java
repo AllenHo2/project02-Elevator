@@ -23,7 +23,7 @@ public class Passenger implements Comparable<Passenger> {
         } while (destFloor == startFloor);
         goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
         this.nearestDestination = destFloor - startFloor;
-       // System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
+       System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
     }
 
 

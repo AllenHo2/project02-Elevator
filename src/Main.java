@@ -39,7 +39,7 @@ public class Main {
         Floor floors = new Floor(floor, structure, probability);
         Floor[] allFloors = new Floor[floor];
         Elevator[] elevator2 = new Elevator[floor];
-        for(int i  = 0; i < floor - 1; i++){
+        for(int i  = 0; i < floor; i++){
             allFloors[i] = new Floor(floor, structure, probability);
             allFloors[i].queuePassenger();
 
@@ -48,9 +48,10 @@ public class Main {
 //            System.out.println(allFloors[i].getDownQueue());
 
         }
+
 //        for(int i = 0; i< floor - 1; i++) {
 //            System.out.println("this is UpQueue: " + allFloors[i].getUpQueue());
-//           // System.out.println("this is DownQueue: " +allFloors[i].getDownQueue());
+//            System.out.println("this is DownQueue: " +allFloors[i].getDownQueue());
 //        }
         Elevator elevator1 = new Elevator(floor, capacity, elevator, structure, allFloors, probability);
 //        for(int i  = 0; i < elevator; i++){
@@ -58,15 +59,30 @@ public class Main {
 ////            elevator2[i].addPassengers(allFloors[elevator2[i].getNumFloor()].getUpQueue());
 ////            System.out.println(elevator2[i].getUpElevator().peek());
 //        }
-        elevator1.setGoingUp(true);
-        for (int i = 0; i < allFloors.length ; i++){
+        // elevator1.setGoingUp(true);
+        int lastNonEmptyFloor = 0;
+        int firstNonEmptyFloor = 0;
 
-            elevator1.moveElevator();
+        for (int i = 0; i < floor; i++) {
+            if (!allFloors[i].getUpQueue().isEmpty()) {
+                lastNonEmptyFloor = i;
+            }
         }
+        for (int i = 0; i < floor; i++) {
+            if (!allFloors[i].getUpQueue().isEmpty()) {
+                firstNonEmptyFloor = i;
+                break;
+            }
+        }
+        for (int i = 0; i < ticks ; i++){
+            elevator1.moveElevator(firstNonEmptyFloor, lastNonEmptyFloor);
+
+        }
+
        // System.out.println(elevator1.getUpElevator().peek());
 
         System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");
-        System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
+        //System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
         System.out.println("--- Elevator has arrived at " + elevator1.getCurrFloor() + " ---");
         System.out.println("--- Average length of time between passenger arrival and conveyance to the final destination ");
 
