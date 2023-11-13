@@ -36,16 +36,16 @@ public class Main {
         ticks = Integer.parseInt(p.getProperty("duration"));
     }
         //System.out.println(floor);
-        Floor floors = new Floor(floor, structure, probability);
+ //       Floor floors = new Floor(floor, structure, probability);
         Floor[] allFloors = new Floor[floor];
         Elevator[] elevator2 = new Elevator[floor];
 
         for(int i  = 0; i < floor; i++) {
 
-            allFloors[i] = new Floor(floor, structure, probability);
+            allFloors[i] = new Floor(floor, structure, probability, i);
             allFloors[i].queuePassenger();
 
-            ;
+//            ;
 //              System.out.println(allFloors[i].getUpQueue());
 //            System.out.println(allFloors[i].getDownQueue());
 
@@ -62,20 +62,20 @@ public class Main {
 ////            System.out.println(elevator2[i].getUpElevator().peek());
 //        }
         // elevator1.setGoingUp(true);
-        int lastNonEmptyFloor = 0;
-        int firstNonEmptyFloor = 0;
-
-        for (int i = 0; i < floor; i++) {
-            if (!allFloors[i].getUpQueue().isEmpty()) {
-                lastNonEmptyFloor = i;
-            }
-        }
-        for (int i = 0; i < floor; i++) {
-            if (!allFloors[i].getUpQueue().isEmpty()) {
-                firstNonEmptyFloor = i;
-                break;
-            }
-        }
+//        int lastNonEmptyFloor = 0;
+//        int firstNonEmptyFloor = 0;
+//
+//        for (int i = 0; i < floor; i++) {
+//            if (!allFloors[i].getUpQueue().isEmpty()) {
+//                lastNonEmptyFloor = i;
+//            }
+//        }
+//        for (int i = 0; i < floor; i++) {
+//            if (!allFloors[i].getUpQueue().isEmpty()) {
+//                firstNonEmptyFloor = i;
+//                break;
+//            }
+//        }
         for (int i = 0; i < ticks ; i++){
             elevator1.moveElevator();
 

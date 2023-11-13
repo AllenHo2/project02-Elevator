@@ -7,15 +7,16 @@ public class Floor {
     private int floorNum;
 
     //private int capacity;
-
+    private int currFloor;
     private float probability;
 
     private Deque<Passenger> upQueue;
     private Deque<Passenger> downQueue;
 
     // private int currFloor; //minimum of 5 and desired floors
-    public Floor(int floorNum, String structures, float probability) {
+    public Floor(int floorNum, String structures, float probability, int currFloor) {
         this.floorNum = floorNum; //number of floors
+        this.currFloor = currFloor;
         this.probability = probability;
         Random random = new Random();
         //  private int numFloors;
@@ -35,7 +36,7 @@ public class Floor {
     public void queuePassenger() {
         Random random = new Random();
         if (random.nextFloat() <= probability) {
-            Passenger passenger = new Passenger(floorNum);
+            Passenger passenger = new Passenger(floorNum, currFloor);
             if (passenger.getNearestDestination() > 0) { //if passenger wants to go to a floor higher than the floor we are on, then we add them to the queue
                 upQueue.add(passenger);
                 System.out.println(passenger + " is added to UpQueue");

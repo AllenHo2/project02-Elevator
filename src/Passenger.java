@@ -15,10 +15,11 @@ public class Passenger implements Comparable<Passenger> {
     private int numFloors; // number of floors
     private int nearestDestination;
 
-    public Passenger(int numFloor) { //constructs Passenger with argument 32 floors
+    public Passenger(int numFloor, int startFloor) { //constructs Passenger with argument 32 floors
         this.numFloors = numFloor;//sets the number of floors to the amount passed into the argument (default 32)
-        Random rand = new Random(); //random object
-        this.startFloor = rand.nextInt(numFloor) + 1; //start floor is random
+        this.startFloor = startFloor;
+       // Random rand = new Random(); //random object
+        //this.startFloor = rand.nextInt(numFloor) + 1; //start floor is random
         do {
             this.destFloor = getDestinationFloor(numFloor); //destination floor generates but has to be different than startFloor
         } while (destFloor == startFloor);
@@ -30,14 +31,7 @@ public class Passenger implements Comparable<Passenger> {
 
    @Override
     public int compareTo(Passenger other) { //compares a passenger to another
-       int destComparison = Integer.compare(this.destFloor, other.destFloor);
-
-       if (destComparison == 0) {
-           // destFloors are equal, compare startFloors
-           return Integer.compare(this.startFloor, other.startFloor);
-       }
-
-       return destComparison;
+       return Integer.compare(this.destFloor, other.destFloor);
     }
 
     public int getDestinationFloor(int numFloors) {
