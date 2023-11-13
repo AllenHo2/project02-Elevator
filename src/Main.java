@@ -40,7 +40,7 @@ public class Main {
         Floor[] allFloors = new Floor[floor];
         Elevator[] elevator2 = new Elevator[floor];
 
-        for(int i  = 0; i < floor; i++) {
+        for(int i  = 0; i < floor - 1; i++) {
 
             allFloors[i] = new Floor(floor, structure, probability, i);
             allFloors[i].queuePassenger();
