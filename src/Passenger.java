@@ -37,7 +37,7 @@ public class Passenger implements Comparable<Passenger> {
     public int getDestinationFloor(int numFloors) {
         Random random = new Random();
         int destinationFloor = random.nextInt(numFloors) + 1;
-        while (destinationFloor > numFloors) {
+        while (destinationFloor > numFloors - 1) {
             destinationFloor = random.nextInt(numFloors) + 1;
         }
         return destinationFloor;

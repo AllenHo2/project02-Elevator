@@ -78,7 +78,7 @@ public class Main {
 //        }
         for (int i = 0; i < ticks ; i++){
             elevator1.moveElevator();
-
+           // elevator1.dropPassengers();
         }
 
        // System.out.println(elevator1.getUpElevator().peek());
