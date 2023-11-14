@@ -78,6 +78,7 @@ public class Main {
 //        }
         for (int i = 0; i < ticks ; i++){
             elevator1.moveElevator();
+            elevator1.addPassengers(floor, allFloors[i]);
            // elevator1.dropPassengers();
         }
 

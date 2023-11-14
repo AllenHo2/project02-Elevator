@@ -27,7 +27,7 @@ public class Passenger implements Comparable<Passenger> {
         this.nearestDestination = destFloor - startFloor;
        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
     }
-
+//create time, when passengers are dropped off, then pass the time to elevator and have main return the time
 
    @Override
     public int compareTo(Passenger other) { //compares a passenger to another
