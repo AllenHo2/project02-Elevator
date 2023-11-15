@@ -76,7 +76,7 @@ public class Elevator {
                         System.out.println("Current Floor for debugging:" + currFloor);
                        // iterator = upElevator.iterator(); //next passenger of the elevator
                         //System.out.println(iterator.toString());
-                     if ((passenger.getDestFloor() - getCurrFloor()) <= ((numFloor - 1) - currFloor) && passenger.getDestFloor() <= currFloor + 5 && passenger.getDestFloor() > getCurrFloor() && currFloor + 5 <= numFloor - 1) { //if passenger's destination is in between 5 floors, then jump to that floor and drop them off
+                     if ((passenger.getDestFloor() - getCurrFloor()) <= ((numFloor - 1) - currFloor) && passenger.getDestFloor() <= currFloor + 5 && passenger.getDestFloor() > getCurrFloor()) { //if passenger's destination is in between 5 floors, then jump to that floor and drop them off
                         if(numFloor - passenger.getDestFloor() >= numFloor - currFloor) {
                             for (int i = currFloor + 1; i <= currFloor + 5; i++) {
                                 if (!allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null) { //if the next five floors are not empty of upQueue
