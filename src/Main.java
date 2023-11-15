@@ -40,7 +40,7 @@ public class Main {
         Floor[] allFloors = new Floor[floor];
        Elevator[] elevator2 = new Elevator[floor];
 
-        for(int i  = 0; i < floor - 1; i++) {
+        for(int i  = 0; i < floor; i++) {
 
             allFloors[i] = new Floor(floor, structure, probability, i);
             allFloors[i].queuePassenger();
@@ -77,7 +77,7 @@ public class Main {
 //            }
 //        }
         for (int i = 0; i < ticks ; i++) {
-            elevator1.addPassengers(floor, allFloors[i]);
+            elevator1.addPassengers(floor, allFloors);
             elevator1.dropPassengers();
             elevator1.moveElevator();
 
