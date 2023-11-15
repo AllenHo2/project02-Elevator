@@ -18,7 +18,7 @@ public class Floor {
         this.floorNum = floorNum; //number of floors
         this.currFloor = currFloor;
         this.probability = probability;
-        Random random = new Random();
+        // Random random = new Random();
         //  private int numFloors;
         if (structures.equals("linked")) {
             this.upQueue = new LinkedList<>();
