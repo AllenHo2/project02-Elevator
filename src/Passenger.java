@@ -14,8 +14,9 @@ public class Passenger implements Comparable<Passenger> {
     private boolean goingUp; //if the elevator is going up or not
     private int numFloors; // number of floors
     private int nearestDestination;
+    private int timeCounter;
 
-    public Passenger(int numFloor, int startFloor) { //constructs Passenger with argument 32 floors
+    public Passenger(int numFloor, int startFloor, int time) { //constructs Passenger with argument 32 floors
         this.numFloors = numFloor;//sets the number of floors to the amount passed into the argument (default 32)
         this.startFloor = startFloor;
        // Random rand = new Random(); //random object
@@ -25,6 +26,7 @@ public class Passenger implements Comparable<Passenger> {
         } while (destFloor == startFloor);
         goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
         this.nearestDestination = destFloor - startFloor;
+        this.timeCounter = 0;
        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
     }
 //create time, when passengers are dropped off, then pass the time to elevator and have main return the time
@@ -69,7 +71,9 @@ public class Passenger implements Comparable<Passenger> {
     public int getNearestDestination() {
         return nearestDestination;
     }
-
+    public int getTimeCounter() {
+        return timeCounter;
+    }
 
 
 }
