@@ -48,6 +48,7 @@ public class Floor {
             }
         }
     }
+    //when we queue passengers, pass that tick time as an argument and then assign it to the passenger
 
     public Deque<Passenger> getUpQueue() {
         return upQueue;

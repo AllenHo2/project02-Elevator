@@ -88,8 +88,8 @@ public class Main {
 //            }
 //        }
         for (int i = 0; i < ticks ; i++) {
-            elevator1.addPassengers(floor, allFloors);
             elevator1.dropPassengers();
+            elevator1.addPassengers(floor, allFloors);
             elevator1.moveElevator();
 
         }
