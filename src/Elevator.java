@@ -232,8 +232,7 @@ public class Elevator {
                         System.out.println("Current Floor: " + currFloor);
                     }
                 }
-                findFirstNonEmptyFloor();
-            } else if(currFloor >=  numFloor - 5 &&  currFloor - firstNonEmptyFloor >= currFloor - 5){
+            } else if(currFloor >=  numFloor - 5 &&  currFloor - findFirstNonEmptyFloor() <= currFloor - 5){
                 System.out.println("Current Floor: " + currFloor);
                 currFloor = findFirstNonEmptyFloor();
                 System.out.println("Current Floor: " + currFloor);
