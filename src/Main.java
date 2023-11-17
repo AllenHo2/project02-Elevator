@@ -26,7 +26,7 @@ public class Main {
         elevator = Integer.parseInt(p.getProperty("elevators"));
         capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
         ticks = Integer.parseInt(p.getProperty("duration"));
-    } else {
+    } else if(args.length == 1){
         FileReader reader = new FileReader("db.properties");
         Properties p = new Properties();
         p.load(reader);
