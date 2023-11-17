@@ -4,7 +4,10 @@ import java.io.*;
 import java.util.*;
 import java.util.Properties;
 import java.io.File;
+import java.util.ArrayList;
 public class Main {
+
+
     public static void main(String[] args) throws Exception {
         int floor = 0;
         float probability = 0;
@@ -43,12 +46,15 @@ public class Main {
         for(int i  = 0; i < floor; i++) {
 
             allFloors[i] = new Floor(floor, structure, probability, i);
-            allFloors[i].queuePassenger(i);
+          //  allFloors[i].queuePassenger(i);
 
 //            ;
 //              System.out.println(allFloors[i].getUpQueue());
 //            System.out.println(allFloors[i].getDownQueue());
 
+        }
+        for(int i = 0; i < elevator; i++){
+            elevator2[i] = new Elevator(floor, capacity, structure, allFloors, probability);
         }
 
 //        for(int i = 0; i< floor - 1; i++) {
@@ -73,7 +79,9 @@ public class Main {
 //            }
 //        }
         // elevator1.setGoingUp(true);
-
+        int sum = 0;
+        int size = 0;
+        ArrayList<Integer> timerValues = new ArrayList<Integer>();
         for (int i = 0; i < ticks ; i++) {
 
             for (Floor allFloor : allFloors) {
@@ -85,12 +93,34 @@ public class Main {
 //            System.out.println(allFloors[i].getDownQueue());
 
             }
-            elevator1.dropPassengers(i);
-            elevator1.addPassengers(floor, allFloors);
-            elevator1.moveElevator();
+
+        for(int j = 0; j < elevator; j++){
+             timerValues.add(elevator2[j].dropPassengers(i));
+            elevator2[j].addPassengers(floor, allFloors);
+            elevator2[j].moveElevator();
+        }
 
         }
 
+        for (int z = 0; z < timerValues.size(); z++) {
+            if(timerValues.get(z) != 0) {
+                sum += timerValues.get(z);
+                size ++;
+            }
+        }
+
+        int averageTime =  sum / size;
+
+        System.out.println("This is average time: " + averageTime);
+
+
+
+      //  System.out.println( Math.round((double) sum / elevator1.timer().size()));
+
+
+        // Calculate the average and cast it to an int
+
+       // System.out.println(elevator1.timer(elevator1.dropPassengers()));
        // System.out.println(elevator1.getUpElevator().peek());
 
         System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");

@@ -27,7 +27,7 @@ public class Passenger implements Comparable<Passenger> {
         } while (destFloor == startFloor);
         goingUp = destFloor > startFloor; //goingUp is true if destFloor is higher than startFloor
         this.nearestDestination = destFloor - startFloor;
-        this.timeCounter = 0;
+        this.timeCounter = time;
        System.out.println("Passenger is on: " + startFloor + "; Passenger wants to go to: " + destFloor + "; Passenger is " + nearestDestination + " away");
     }
 //create time, when passengers are dropped off, then pass the time to elevator and have main return the time

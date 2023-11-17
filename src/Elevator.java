@@ -38,6 +38,8 @@ public class Elevator {
 
     private int lastNonEmptyFloor;
 
+    private ArrayList<Integer> timeArray;
+
     public Elevator(int floorNum, int elevatorCapacity, String structures, Floor[] allFloors, float probability) {
         this.numFloor = floorNum;
         this.probability = probability;
@@ -52,6 +54,7 @@ public class Elevator {
         this.counterCapacity = elevatorCapacity;
         this.firstNonEmptyFloor = 0;
         this.lastNonEmptyFloor = 0;
+        this.timeArray = new ArrayList<Integer>();
     }
     public void moveElevator(){
         //  Iterator<Passenger> iterator;
@@ -153,7 +156,8 @@ public class Elevator {
                             System.out.println("Current Floor: " + currFloor);
                             setFloorInBetween(true);
                             break;
-                        } else if (i == numFloor - 1 && !floorInBetween){
+                        }
+                        else if (i == numFloor - 1 && !floorInBetween){
                             currFloor += 5;
                             System.out.println("Current Floor: " + currFloor);
                         }
@@ -263,7 +267,7 @@ public class Elevator {
                     } else if(!floorInBetween && findFirstNonEmptyFloor() < numFloor - 5 && currFloor >= numFloor - 5) {
                         currFloor -= 5;
                         System.out.println("Current Floor: " + currFloor);
-                    } else if (!floorInBetween && (i ==0) && currFloor - 5 >= 0){
+                    } else if (!floorInBetween && currFloor - 5 >= 0){
                         currFloor -= 5;
                         System.out.println("Current Floor: " + currFloor);
                     }
@@ -386,22 +390,33 @@ public class Elevator {
     }
 
     public int dropPassengers(int time) {
+        int timeAtDrop = 0;
         if (goingUp) {
             if (upElevator != null) {
                 while (!upElevator.isEmpty() && currFloor == upElevator.peek().getDestFloor()) {
+                    timeAtDrop = time - upElevator.peek().getTimeCounter();
                     System.out.println("Passenger with starting floor: " + upElevator.peek().getStartFloor() + " & Destination floor: " + upElevator.peek().getDestFloor() + " has been polled " + upElevator.poll());
+                   // System.out.println(timeAtDrop);
                 }
 
             }
         } else {
             if(downElevator != null){
                 while(!downElevator.isEmpty() && currFloor == downElevator.peek().getDestFloor()){
+                    timeAtDrop = time - downElevator.peek().getTimeCounter();
                     System.out.println("Passenger with starting floor: " + downElevator.peek().getStartFloor() + " & Destination floor: " + downElevator.peek().getDestFloor() + " has been polled " + downElevator.poll());
+                    //System.out.println(timeAtDrop);
                 }
             }
         }
-        return time;
+        return timeAtDrop;
     }
+
+
+//    public ArrayList<Integer> timer (int time){
+//        timeArray.add(time);
+//        return timeArray;
+//    }
 
     public void setGoingUp(boolean goingUp) {
         this.goingUp = goingUp;
