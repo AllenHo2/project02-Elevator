@@ -42,23 +42,23 @@ public class Main {
             Properties pNew = new Properties();
             pNew.load(readerNew);
 
-            if (Objects.equals(p.getProperty("structures"), "linked") || Objects.equals(p.getProperty("structures"), "array") && pNew.getProperty("structures") != null){
-                structure = p.getProperty("structures");
+            if (!pNew.getProperty("structures").equals("linked") || !pNew.getProperty("structures").equals("array") && pNew.getProperty("structures") != null){
+                structure = pNew.getProperty("structures");
             }
             if(Integer.parseInt(pNew.getProperty("floors")) >= 2 &&  pNew.getProperty("floors") != null) {
-                floor = Integer.parseInt(p.getProperty("floors"));
+                floor = Integer.parseInt(pNew.getProperty("floors"));
             }
             if(Float.parseFloat(pNew.getProperty("passengers"))  < 1 && Float.parseFloat(pNew.getProperty("passengers"))  > 0 &&  pNew.getProperty("passengers") != null) {
-                probability = Float.parseFloat(p.getProperty("passengers"));
+                probability = Float.parseFloat(pNew.getProperty("passengers"));
             }
             if(Integer.parseInt(pNew.getProperty("elevators")) >= 1 &&  pNew.getProperty("elevators") != null) {
-                elevator = Integer.parseInt(p.getProperty("elevators"));
+                elevator = Integer.parseInt(pNew.getProperty("elevators"));
             }
             if(Integer.parseInt(pNew.getProperty("elevatorCapacity")) >= 1 &&  pNew.getProperty("elevatorCapacity") != null) {
-                capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
+                capacity = Integer.parseInt(pNew.getProperty("elevatorCapacity"));
             }
             if(Integer.parseInt(pNew.getProperty("duration")) >= 1 &&  pNew.getProperty("duration") != null) {
-                ticks = Integer.parseInt(p.getProperty("duration"));
+                ticks = Integer.parseInt(pNew.getProperty("duration"));
             }
 
         } catch (FileNotFoundException e){
