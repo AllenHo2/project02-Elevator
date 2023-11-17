@@ -147,6 +147,9 @@ public class Elevator {
 //                }
 //            }
             else {
+                if(currFloor >= numFloor - 6 && currFloor <= numFloor -1){
+                    currFloor = numFloor - 1;
+                }
                 for(int i = currFloor + 1; i < numFloor; i++){
                     if(!allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null){ //if the rest of the floors have an upQueue
                         Passenger nextPassenger = allFloors[i].getUpQueue().peek();
@@ -161,12 +164,12 @@ public class Elevator {
                             currFloor += 5;
                             System.out.println("Current Floor: " + currFloor);
                         }
-                    } else if (findFirstNonEmptyFloor() > 5 && currFloor < 5 && !floorInBetween){  //if first non empty floor isnt within 5, plus 5
-                        currFloor += 5;
-                        break;
-                    } else if ((i == numFloor - 1) && currFloor >= numFloor - 6 && currFloor <= numFloor - 1){ //if within the bounderies, then jump to max floor
+                    }  else if ((i == numFloor - 1) && currFloor >= numFloor - 6 && currFloor <= numFloor - 1){ //if within the bounderies, then jump to max floor
                         currFloor = numFloor - 1;
                         System.out.println("Current Floor: " + currFloor);
+                        break;
+                    } else if (findFirstNonEmptyFloor() > 5 && currFloor < 5 && !floorInBetween){  //if first non empty floor isnt within 5, plus 5
+                        currFloor += 5;
                         break;
                     } else if(i == numFloor - 1) { //if no floor in between, jump to towards highest floor
                         currFloor += 5;
@@ -249,6 +252,10 @@ public class Elevator {
                 currFloor = findFirstNonEmptyFloor();
                 System.out.println("Current Floor: " + currFloor);
             } else {
+                if(currFloor >= 0 && currFloor <= 5){
+                    currFloor = 0;
+                    System.out.println("Current Floor: " + currFloor);
+                }
                 for(int i = currFloor - 1; i >= 0; i--){
                     if(!allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null){ //if the rest of the floors have an downQueue
                         Passenger nextPassenger = allFloors[i].getDownQueue().peek();
@@ -269,10 +276,6 @@ public class Elevator {
                         System.out.println("Current Floor: " + currFloor);
                     } else if (!floorInBetween && currFloor - 5 >= 0){
                         currFloor -= 5;
-                        System.out.println("Current Floor: " + currFloor);
-                    }
-                    else if (currFloor >= 0 && currFloor <= 5){
-                        currFloor = 0;
                         System.out.println("Current Floor: " + currFloor);
                     }
                 }

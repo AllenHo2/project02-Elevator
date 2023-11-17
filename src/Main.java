@@ -26,8 +26,8 @@ public class Main {
         elevator = Integer.parseInt(p.getProperty("elevators"));
         capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
         ticks = Integer.parseInt(p.getProperty("duration"));
-    } else if (args.length == 1){
-        FileReader reader = new FileReader(args[0]);
+    } else {
+        FileReader reader = new FileReader("db.properties");
         Properties p = new Properties();
         p.load(reader);
 
@@ -37,6 +37,33 @@ public class Main {
         elevator = Integer.parseInt(p.getProperty("elevators"));
         capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
         ticks = Integer.parseInt(p.getProperty("duration"));
+        try {
+            FileReader readerNew = new FileReader(args[0]);
+            Properties pNew = new Properties();
+            pNew.load(readerNew);
+
+            if (Objects.equals(p.getProperty("structures"), "linked") || Objects.equals(p.getProperty("structures"), "array") && pNew.getProperty("structures") != null){
+                structure = p.getProperty("structures");
+            }
+            if(Integer.parseInt(pNew.getProperty("floors")) >= 2 &&  pNew.getProperty("floors") != null) {
+                floor = Integer.parseInt(p.getProperty("floors"));
+            }
+            if(Float.parseFloat(pNew.getProperty("passengers"))  < 1 && Float.parseFloat(pNew.getProperty("passengers"))  > 0 &&  pNew.getProperty("passengers") != null) {
+                probability = Float.parseFloat(p.getProperty("passengers"));
+            }
+            if(Integer.parseInt(pNew.getProperty("elevators")) >= 1 &&  pNew.getProperty("elevators") != null) {
+                elevator = Integer.parseInt(p.getProperty("elevators"));
+            }
+            if(Integer.parseInt(pNew.getProperty("elevatorCapacity")) >= 1 &&  pNew.getProperty("elevatorCapacity") != null) {
+                capacity = Integer.parseInt(p.getProperty("elevatorCapacity"));
+            }
+            if(Integer.parseInt(pNew.getProperty("duration")) >= 1 &&  pNew.getProperty("duration") != null) {
+                ticks = Integer.parseInt(p.getProperty("duration"));
+            }
+
+        } catch (FileNotFoundException e){
+            System.out.println("File Error");
+        }
     }
         //System.out.println(floor);
  //       Floor floors = new Floor(floor, structure, probability);
@@ -62,56 +89,49 @@ public class Main {
 //            System.out.println("this is DownQueue: " +allFloors[i].getDownQueue());
 //        }
         Elevator elevator1 = new Elevator(floor, capacity, structure, allFloors, probability);
-//        for(int j = 0; j < ticks; j++) {
-//            for(int i  = 0; i < floor; i++) {
-//
-//                allFloors[i] = new Floor(floor, structure, probability, i);
-//                allFloors[i].queuePassenger();
-//
-//            }
-//            for (int i = 0; i < elevator; i++) {
-//                elevator2[i] = new Elevator(floor, capacity, structure, allFloors, probability);
-//                elevator2[i].addPassengers(floor, allFloors);
-//                elevator2[i].dropPassengers();
-//                elevator2[i].moveElevator();
-////            elevator2[i].addPassengers(allFloors[elevator2[i].getNumFloor()].getUpQueue());
-////            System.out.println(elevator2[i].getUpElevator().peek());
-//            }
-//        }
-        // elevator1.setGoingUp(true);
+
         int sum = 0;
+        int max = 0;
+        int min = ticks + 1;
         int size = 0;
         ArrayList<Integer> timerValues = new ArrayList<Integer>();
         for (int i = 0; i < ticks ; i++) {
-
             for (Floor allFloor : allFloors) {
-
                 allFloor.queuePassenger(i);
-
-//            ;
-//              System.out.println(allFloors[i].getUpQueue());
-//            System.out.println(allFloors[i].getDownQueue());
-
             }
 
-        for(int j = 0; j < elevator; j++){
-             timerValues.add(elevator2[j].dropPassengers(i));
-            elevator2[j].addPassengers(floor, allFloors);
-            elevator2[j].moveElevator();
-        }
+            for(int j = 0; j < elevator; j++){
+                timerValues.add(elevator2[j].dropPassengers(i));
+                elevator2[j].addPassengers(floor, allFloors);
+                elevator2[j].moveElevator();
+            }
+
 
         }
-
-        for (int z = 0; z < timerValues.size(); z++) {
-            if(timerValues.get(z) != 0) {
-                sum += timerValues.get(z);
+        for (int i = 0; i < timerValues.size(); i++) {
+            if(timerValues.get(i) != 0) {
+                sum += timerValues.get(i);
                 size ++;
+            }
+        }
+
+        for (int i = 0; i < timerValues.size(); i++){
+            if(timerValues.get(i) != 0 && max <= timerValues.get(i)){
+                max = timerValues.get(i);
+            }
+        }
+
+        for (int i = 0; i < timerValues.size(); i++){
+            if(timerValues.get(i) != 0 && min > timerValues.get(i)){
+                min = timerValues.get(i);
             }
         }
 
         int averageTime =  sum / size;
 
-        System.out.println("This is average time: " + averageTime);
+        System.out.println("--- This is average time: " + averageTime + " ticks ---");
+        System.out.println("--- This is longest time: " + max + " ticks ---");
+        System.out.println("--- This is shortest time: " + min + " ticks ---");
 
 
 
@@ -123,10 +143,10 @@ public class Main {
        // System.out.println(elevator1.timer(elevator1.dropPassengers()));
        // System.out.println(elevator1.getUpElevator().peek());
 
-        System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");
-        //System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
-        System.out.println("--- Elevator has arrived at " + elevator1.getCurrFloor() + " ---");
-        System.out.println("--- Average length of time between passenger arrival and conveyance to the final destination ");
+//        System.out.println("--- Elevator is on floor " + elevator1.getCurrFloor() + " ---");
+//        //System.out.println("--- Elevator is heading to " + elevator1.getDestFloor() + " ---");
+//        System.out.println("--- Elevator has arrived at " + elevator1.getCurrFloor() + " ---");
+//        System.out.println("--- Average length of time between passenger arrival and conveyance to the final destination ");
 
     }
 }
