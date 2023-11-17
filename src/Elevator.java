@@ -135,7 +135,15 @@ public class Elevator {
                 System.out.println("Current Floor: " + currFloor);
                 currFloor += findFirstNonEmptyFloor();
                 System.out.println("Current Floor: " + currFloor);
-            } else {
+            }
+//            else if (currFloor == 0 && findLastNonEmptyFloor() == 0 && findLastNonEmptyFloor() == 0){
+//                for(int i = currFloor + 1; i < numFloor; i++) {
+//                    if (allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null) {
+//                        currFloor = numFloor; //if there are no passengers going up, then start elevator at max floor
+//                    }
+//                }
+//            }
+            else {
                 for(int i = currFloor + 1; i < numFloor; i++){
                     if(!allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null){ //if the rest of the floors have an upQueue
                         Passenger nextPassenger = allFloors[i].getUpQueue().peek();
@@ -255,7 +263,7 @@ public class Elevator {
                     } else if(!floorInBetween && findFirstNonEmptyFloor() < numFloor - 5 && currFloor >= numFloor - 5) {
                         currFloor -= 5;
                         System.out.println("Current Floor: " + currFloor);
-                    } else if (floorInBetween && (i ==0)){
+                    } else if (!floorInBetween && (i ==0) && currFloor - 5 >= 0){
                         currFloor -= 5;
                         System.out.println("Current Floor: " + currFloor);
                     }
@@ -377,7 +385,7 @@ public class Elevator {
         }
     }
 
-    public void dropPassengers() {
+    public int dropPassengers(int time) {
         if (goingUp) {
             if (upElevator != null) {
                 while (!upElevator.isEmpty() && currFloor == upElevator.peek().getDestFloor()) {
@@ -392,6 +400,7 @@ public class Elevator {
                 }
             }
         }
+        return time;
     }
 
     public void setGoingUp(boolean goingUp) {

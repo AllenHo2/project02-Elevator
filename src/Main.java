@@ -43,7 +43,7 @@ public class Main {
         for(int i  = 0; i < floor; i++) {
 
             allFloors[i] = new Floor(floor, structure, probability, i);
-            allFloors[i].queuePassenger();
+            allFloors[i].queuePassenger(i);
 
 //            ;
 //              System.out.println(allFloors[i].getUpQueue());
@@ -73,22 +73,19 @@ public class Main {
 //            }
 //        }
         // elevator1.setGoingUp(true);
-//        int lastNonEmptyFloor = 0;
-//        int firstNonEmptyFloor = 0;
-//
-//        for (int i = 0; i < floor; i++) {
-//            if (!allFloors[i].getUpQueue().isEmpty()) {
-//                lastNonEmptyFloor = i;
-//            }
-//        }
-//        for (int i = 0; i < floor; i++) {
-//            if (!allFloors[i].getUpQueue().isEmpty()) {
-//                firstNonEmptyFloor = i;
-//                break;
-//            }
-//        }
+
         for (int i = 0; i < ticks ; i++) {
-            elevator1.dropPassengers();
+
+            for (Floor allFloor : allFloors) {
+
+                allFloor.queuePassenger(i);
+
+//            ;
+//              System.out.println(allFloors[i].getUpQueue());
+//            System.out.println(allFloors[i].getDownQueue());
+
+            }
+            elevator1.dropPassengers(i);
             elevator1.addPassengers(floor, allFloors);
             elevator1.moveElevator();
 

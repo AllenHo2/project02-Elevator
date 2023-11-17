@@ -16,9 +16,10 @@ public class Passenger implements Comparable<Passenger> {
     private int nearestDestination;
     private int timeCounter;
 
-    public Passenger(int numFloor, int startFloor) { //constructs Passenger with argument 32 floors
+    public Passenger(int numFloor, int startFloor, int time) { //constructs Passenger with argument 32 floors
         this.numFloors = numFloor;//sets the number of floors to the amount passed into the argument (default 32)
         this.startFloor = startFloor;
+        this.timeCounter = time;
        // Random rand = new Random(); //random object
         //this.startFloor = rand.nextInt(numFloor) + 1; //start floor is random
         do {
@@ -74,6 +75,5 @@ public class Passenger implements Comparable<Passenger> {
     public int getTimeCounter() {
         return timeCounter;
     }
-
 
 }
