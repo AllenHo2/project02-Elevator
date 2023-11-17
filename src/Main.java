@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Main {
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         int floor = 0;
         float probability = 0;
         int elevator = 0;
@@ -42,22 +42,22 @@ public class Main {
             Properties pNew = new Properties();
             pNew.load(readerNew);
 
-            if (!pNew.getProperty("structures").equals("linked") || !pNew.getProperty("structures").equals("array") && pNew.getProperty("structures") != null){
+            if ( pNew.getProperty("structures") != null && pNew.getProperty("structures").equals("linked") || pNew.getProperty("structures").equals("array") && !pNew.getProperty("structures").isEmpty()){
                 structure = pNew.getProperty("structures");
             }
-            if(Integer.parseInt(pNew.getProperty("floors")) >= 2 &&  pNew.getProperty("floors") != null) {
+            if(!pNew.getProperty("floors").isEmpty() && Integer.parseInt(pNew.getProperty("floors")) >= 2 &&  pNew.getProperty("floors") != null) {
                 floor = Integer.parseInt(pNew.getProperty("floors"));
             }
-            if(Float.parseFloat(pNew.getProperty("passengers"))  < 1 && Float.parseFloat(pNew.getProperty("passengers"))  > 0 &&  pNew.getProperty("passengers") != null) {
+            if(!pNew.getProperty("passengers").isEmpty() && Float.parseFloat(pNew.getProperty("passengers"))  < 1 && Float.parseFloat(pNew.getProperty("passengers"))  > 0 &&  pNew.getProperty("passengers") != null) {
                 probability = Float.parseFloat(pNew.getProperty("passengers"));
             }
-            if(Integer.parseInt(pNew.getProperty("elevators")) >= 1 &&  pNew.getProperty("elevators") != null) {
+            if(!pNew.getProperty("elevators").isEmpty() && Integer.parseInt(pNew.getProperty("elevators")) >= 1 &&  pNew.getProperty("elevators") != null ) {
                 elevator = Integer.parseInt(pNew.getProperty("elevators"));
             }
-            if(Integer.parseInt(pNew.getProperty("elevatorCapacity")) >= 1 &&  pNew.getProperty("elevatorCapacity") != null) {
+            if(!pNew.getProperty("elevatorCapacity").isEmpty() && Integer.parseInt(pNew.getProperty("elevatorCapacity")) >= 1 &&  pNew.getProperty("elevatorCapacity") != null) {
                 capacity = Integer.parseInt(pNew.getProperty("elevatorCapacity"));
             }
-            if(Integer.parseInt(pNew.getProperty("duration")) >= 1 &&  pNew.getProperty("duration") != null) {
+            if(!pNew.getProperty("duration").isEmpty() && Integer.parseInt(pNew.getProperty("duration")) >= 1 &&  pNew.getProperty("duration") != null) {
                 ticks = Integer.parseInt(pNew.getProperty("duration"));
             }
 
