@@ -1,44 +1,20 @@
 import java.util.*;
-
+/**
+ * Print statements are used to debug so they may look a little funny
+ * It does help with debugging though so I left them :^)
+ */
 public class Elevator {
 
     private int numFloor; //number of floors
-
-    private int destFloor; //destination floor
-
-    private int startFloor; //start floor
-
     private boolean goingUp; //is going up
     private boolean floorInBetween;
     private  int capacity; //capacity of elevator
-
-    public PriorityQueue<Passenger> getUpElevator() {
-        return upElevator;
-    }
-    public PriorityQueue<Passenger> getDownElevator() {
-        return downElevator;
-    }
-    private PriorityQueue<Passenger> upElevator;
-
-    private PriorityQueue<Passenger> downElevator;
-
+    private PriorityQueue<Passenger> upElevator; //min heap
+    private PriorityQueue<Passenger> downElevator; //max heap
     private Floor[] allFloors;
-    private int tick;
-
-
     private int currFloor;
-
-    private String structure;
-
     private float probability;
-
-    private int counterCapacity;
-
     private int firstNonEmptyFloor;
-
-    private int lastNonEmptyFloor;
-
-    private ArrayList<Integer> timeArray;
 
     public Elevator(int floorNum, int elevatorCapacity, String structures, Floor[] allFloors, float probability) {
         this.numFloor = floorNum;
@@ -47,26 +23,15 @@ public class Elevator {
         this.allFloors =  allFloors;
         this.upElevator = new PriorityQueue<Passenger>();
         this.downElevator = new PriorityQueue<Passenger>(Collections.reverseOrder());
-        this.structure = structures;
         this.currFloor = 0; //elevator starts at ground
         this.goingUp = true;
         this.floorInBetween = false;
-        this.counterCapacity = elevatorCapacity;
         this.firstNonEmptyFloor = 0;
-        this.lastNonEmptyFloor = 0;
-        this.timeArray = new ArrayList<Integer>();
     }
     public void moveElevator(){
-        //  Iterator<Passenger> iterator;
-
-//        for (Floor allFloor : allFloors) {
-//            addPassengers(allFloor.getUpQueue()); //add all the passengers from the current floor into the heap
-//            addPassengers(allFloor.getDownQueue()); //add all the passengers from the current floor into the heap
-//        }
-// choose floor to go to , check 1 floor up or one floor down, if there is no floor up, then check down, go down to see which passenger hasnt been assigned to another elevator
-        if(currFloor == 0){
+        if(currFloor == 0){ //if ground floor, the go up
             setGoingUp(true);
-        } else if (currFloor == numFloor -1){
+        } else if (currFloor == numFloor -1){ //if top floor, then go down
             setGoingUp(false);
         }
         if (goingUp) { //if we go up
@@ -80,7 +45,6 @@ public class Elevator {
                     if(numFloor - passenger.getDestFloor() >= numFloor - currFloor) {
                         for (int i = currFloor + 1; i <= currFloor + 5; i++) {
                             if (!allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null) { //if the next five floors are not empty of upQueue
-                                // passenger = iterator.next();
                                 if (passenger.getDestFloor() >= i) { //if the current passenger's destination floor not on i
                                     System.out.println("There is a passenger on floor orange: " + i + " so we'll skip to it");
                                     this.currFloor = i; //go to that floor
@@ -133,21 +97,13 @@ public class Elevator {
                         System.out.println("Current Floor: " + currFloor);
                     }
                 }
-            } else if(currFloor <=  5 &&  findFirstNonEmptyFloor() -  currFloor  <= currFloor + 5){
-               // findFirstNonEmptyFloor();
+            } else if(currFloor <=  5 &&  findFirstNonEmptyFloor() -  currFloor  <= currFloor + 5){ //if floor is less than 5, then find the first nonempty floor within 5 floors and set currFloor to it
                 System.out.println("Current Floor: " + currFloor);
                 currFloor = findFirstNonEmptyFloor();
                 System.out.println("Current Floor: " + currFloor);
             }
-//            else if (currFloor == 0 && findLastNonEmptyFloor() == 0 && findLastNonEmptyFloor() == 0){
-//                for(int i = currFloor + 1; i < numFloor; i++) {
-//                    if (allFloors[i].getUpQueue().isEmpty() && allFloors[i] != null) {
-//                        currFloor = numFloor; //if there are no passengers going up, then start elevator at max floor
-//                    }
-//                }
-//            }
             else {
-                if(currFloor >= numFloor - 6 && currFloor <= numFloor -1){
+                if(currFloor >= numFloor - 6 && currFloor <= numFloor -1){ //if currFloor is within 5 floors of the max floor, just set currFloor to maxFloor
                     currFloor = numFloor - 1;
                 }
                 for(int i = currFloor + 1; i < numFloor; i++){
@@ -155,12 +111,12 @@ public class Elevator {
                         Passenger nextPassenger = allFloors[i].getUpQueue().peek();
                         if (nextPassenger != null && nextPassenger.getStartFloor() <= numFloor - 1 && nextPassenger.getStartFloor() <= currFloor + 5) { //then if that Upqeue
                             System.out.println("There is a passenger on floor apple: " + i + " so we'll skip to it");
-                            this.currFloor = i;
+                            this.currFloor = i; //sets currFloor to the floor with passengers waiting
                             System.out.println("Current Floor: " + currFloor);
                             setFloorInBetween(true);
                             break;
                         }
-                        else if (i == numFloor - 1 && !floorInBetween){
+                        else if (i == numFloor - 1 && !floorInBetween){ //if there is no floor in between and we've already iterated to top floor then add 5 floors to currFloor
                             currFloor += 5;
                             System.out.println("Current Floor: " + currFloor);
                         }
@@ -178,13 +134,8 @@ public class Elevator {
                     }
                 }
             }
-//                    if(allFloors[currFloor].getUpQueue() == null && !passengersInBetween(upElevator) || currFloor == numFloor - 1 || !passengersAbove(upElevator)){
-//                        setGoingUp(false);
-//                    }
-
-
-        } else {
-            Passenger passenger = downElevator.peek(); //looks at the passenger at the top
+        } else { //going Down
+            Passenger passenger = downElevator.peek(); //looks at the passenger at the top of heap
             if (passenger != null) {
                 System.out.println("Capacity in the elevator: " + upElevator.size());
                 System.out.println("This is priority passenger:" + passenger + "and this is his starting location: " + passenger.getStartFloor());
@@ -194,7 +145,6 @@ public class Elevator {
                     if(passenger.getDestFloor() >= 5) { //if not over the roof
                         for (int i = currFloor - 1; i >= currFloor - 5; i--) {
                             if (!allFloors[i].getDownQueue().isEmpty() && allFloors[i] != null) { //if the next five floors are not empty of upQueue
-                                // passenger = iterator.next();
                                 if (passenger.getDestFloor() <= i) { //if the current passenger's destination floor not on i
                                     System.out.println("There is a passenger on floor orange: " + i + " so we'll skip to it");
                                     this.currFloor = i; //go to that floor
@@ -247,12 +197,12 @@ public class Elevator {
                         System.out.println("Current Floor: " + currFloor);
                     }
                 }
-            } else if(currFloor >=  numFloor - 5 &&  currFloor - findFirstNonEmptyFloor() <= currFloor - 5){
+            } else if(currFloor >=  numFloor - 5 &&  currFloor - findFirstNonEmptyFloor() <= currFloor - 5){ //if first non empty floor is within 5 floors, jump to it
                 System.out.println("Current Floor: " + currFloor);
                 currFloor = findFirstNonEmptyFloor();
                 System.out.println("Current Floor: " + currFloor);
             } else {
-                if(currFloor >= 0 && currFloor <= 5){
+                if(currFloor >= 0 && currFloor <= 5){ //if currFloor is within 5 floors of the ground, then jump to it
                     currFloor = 0;
                     System.out.println("Current Floor: " + currFloor);
                 }
@@ -261,76 +211,23 @@ public class Elevator {
                         Passenger nextPassenger = allFloors[i].getDownQueue().peek();
                         if (nextPassenger != null && nextPassenger.getStartFloor() <= numFloor - 1 && nextPassenger.getStartFloor() <= currFloor + 5) { //then if that downQeue
                             System.out.println("There is a passenger on floor apple: " + i + " so we'll skip to it");
-                            this.currFloor = i;
+                            this.currFloor = i; //set currFloor to the floor where passengers are waiting
                             System.out.println("Current Floor: " + currFloor);
                             setFloorInBetween(true);
                             break;
                         }
-
-//                        if (floorInBetween && nextPassenger.getStartFloor() > 5){
-//                            currFloor -= 5;
-//                            System.out.println("Current Floor: " + currFloor);
-//                        }
-                    } else if(!floorInBetween && findFirstNonEmptyFloor() < numFloor - 5 && currFloor >= numFloor - 5) {
+                    } else if(!floorInBetween && findFirstNonEmptyFloor() < numFloor - 5 && currFloor >= numFloor - 5) { //else if first nonempty floor is lower than 5, then just go down 5 floors
                         currFloor -= 5;
                         System.out.println("Current Floor: " + currFloor);
-                    } else if (!floorInBetween && currFloor - 5 >= 0){
+                    } else if (!floorInBetween && currFloor - 5 >= 0){ //if theres no floor in between & currFloor is not going to crash into the ground, go down 5 floors
                         currFloor -= 5;
                         System.out.println("Current Floor: " + currFloor);
                     }
                 }
             }
-//            if(allFloors[currFloor]== null && !passengersInBetween(downElevator)){
-//                setGoingUp(true);
-//            }
         }
     }
-
-
-
-    public boolean passengersAbove(PriorityQueue<Passenger> elevator){
-        Passenger passenger = elevator.peek();
-        if(passenger != null){
-            for(int i = currFloor; i < numFloor; i++){
-                if(allFloors[i].getUpQueue().isEmpty()){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean passengersInBetween(PriorityQueue<Passenger> elevator) {
-        Passenger passenger = elevator.peek();
-        if(passenger != null){
-            if (getCurrFloor() + 5 < passenger.getDestFloor() && getCurrFloor() + 5 <= numFloor - 1) { //if the destination of the passenger is more than 5, and it is not past the roof
-                for (int i = currFloor + 1; i <= currFloor + 5; i++) {
-                    if (!allFloors[i].getUpQueue().isEmpty()) { //if the next five floors are not empty of upQueue
-                        // passenger = iterator.next();
-                        if (passenger.getDestFloor() >= i) { //if the current passenger's destination floor not on i
-                            System.out.println("There is a passenger on floor: " + i + " so we'll skip to it");
-                            this.currFloor = i; //go to that floor
-                            // addPassengers(allFloors[currFloor].getUpQueue());
-                            System.out.println("Current Floor: " + currFloor);
-                            setFloorInBetween(true); //set in between flag to true
-                            break;
-                        } else {
-                            setFloorInBetween(false); //then set no floor in between
-                        }
-                    }
-                }
-            }
-            if (!floorInBetween) { //if there is no floor in between
-                this.currFloor += 5; //add 5 floors
-                System.out.println("Current Floor: " + currFloor);
-            }
-        }
-        return floorInBetween;
-    }
-
-
-
-    public int findFirstNonEmptyFloor(){
+    public int findFirstNonEmptyFloor(){ //finds first non empty floor when an elevator changes direction
         if(goingUp){
             for (int i = 0; i < numFloor - 1; i++) {
                 if (!allFloors[i].getUpQueue().isEmpty()) {
@@ -349,23 +246,6 @@ public class Elevator {
         return firstNonEmptyFloor;
     }
 
-    public int findLastNonEmptyFloor(){
-        if(goingUp) {
-            for (int i = 0; i < numFloor; i++) {
-                if (!allFloors[i].getUpQueue().isEmpty()) {
-                    lastNonEmptyFloor = i;
-                }
-            }
-        } else {
-            for (int i = numFloor - 1; i > 0; i--) {
-                if (!allFloors[i].getUpQueue().isEmpty()) {
-                    lastNonEmptyFloor = i;
-                }
-            }
-        }
-        return lastNonEmptyFloor;
-    }
-    //numerical value of floor that it is at
     public void addPassengers(int floorNum, Floor[] floor){ //loads an entire queue of passengers from a single floor into the elevator(appropriate heap)
         if(goingUp){ //if going up
             Passenger passenger = floor[currFloor].getUpQueue().peek();
@@ -373,9 +253,7 @@ public class Elevator {
                 while (upElevator.size() <= capacity && !floor[currFloor].getUpQueue().isEmpty() && passenger.getStartFloor() == currFloor) { //while there is space in the elevator
                     System.out.print("Passenger is added to the up elevator " + passenger + "With a start floor of: " + passenger.getStartFloor() + " and has a destination of " + passenger.getDestFloor() + " ");
                     upElevator.add(floor[currFloor].getUpQueue().poll()); //poll all the passengers from the floor into the elevator going down
-                    //  counterCapacity--;
                     System.out.println("Floor where passenger is added to the up elevator: " + currFloor);
-                    // System.out.println("Capacity: " + counterCapacity );
                 }
             }
         } else { //if going down
@@ -384,9 +262,7 @@ public class Elevator {
                 while (downElevator.size() < capacity && !floor[currFloor].getDownQueue().isEmpty() && passenger.getStartFloor() == currFloor) { //while there is space in the elevator
                     System.out.print("Passenger is added to the down elevator " + floor[currFloor].getDownQueue().peek() + " ");
                     downElevator.add(floor[currFloor].getDownQueue().poll()); //poll all the passengers from the floor into the elevator going down
-                    // counterCapacity--;
                     System.out.println("Floor where passenger is added to the down elevator: " + currFloor);
-                    //  System.out.println("Capacity: " + counterCapacity );
                 }
             }
         }
@@ -399,7 +275,6 @@ public class Elevator {
                 while (!upElevator.isEmpty() && currFloor == upElevator.peek().getDestFloor()) {
                     timeAtDrop = time - upElevator.peek().getTimeCounter();
                     System.out.println("Passenger with starting floor: " + upElevator.peek().getStartFloor() + " & Destination floor: " + upElevator.peek().getDestFloor() + " has been polled " + upElevator.poll());
-                   // System.out.println(timeAtDrop);
                 }
 
             }
@@ -408,18 +283,11 @@ public class Elevator {
                 while(!downElevator.isEmpty() && currFloor == downElevator.peek().getDestFloor()){
                     timeAtDrop = time - downElevator.peek().getTimeCounter();
                     System.out.println("Passenger with starting floor: " + downElevator.peek().getStartFloor() + " & Destination floor: " + downElevator.peek().getDestFloor() + " has been polled " + downElevator.poll());
-                    //System.out.println(timeAtDrop);
                 }
             }
         }
         return timeAtDrop;
     }
-
-
-//    public ArrayList<Integer> timer (int time){
-//        timeArray.add(time);
-//        return timeArray;
-//    }
 
     public void setGoingUp(boolean goingUp) {
         this.goingUp = goingUp;
